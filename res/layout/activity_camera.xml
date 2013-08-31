@@ -1,0 +1,117 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/FrameLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".CameraActivity" >
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <com.dylan.orzeye.DrawImageView
+        android:id="@+id/drawRect"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#957FFF00"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/ResultView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:gravity="center"
+                    android:scrollHorizontally="true"
+                    android:textColor="#ff0000"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|center_horizontal"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <ImageButton
+                            android:id="@+id/notes_add_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/dict_result_notes_add_icon" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <ImageButton
+                            android:id="@+id/web_searcg_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/dict_web_search_icon" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom|center" >
+
+            <ImageButton
+                android:id="@+id/triggerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tigger_camera_icon"
+                android:scaleType="centerInside" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
