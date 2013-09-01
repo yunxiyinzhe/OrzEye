@@ -7,15 +7,16 @@ import android.os.Environment;
 
 public class OCRTool {
 	private TessBaseAPI tessOCRApi = null;
-	
+
 	public static final String DATA_PATH = Environment
 			.getExternalStorageDirectory().toString() + "/OrzEye/";
 
 	public static final String lang = "eng";
-	
+
 	public OCRTool() {
 		initOcrEngine();
 	}
+
 	public String OCRStart(Bitmap ocrBitmap) {
 		tessOCRApi.setImage(ocrBitmap);
 		try {
@@ -26,10 +27,10 @@ public class OCRTool {
 		}
 		tessOCRApi.end();
 		return "";
-		
+
 	}
-	
-	 private void initOcrEngine() {
+
+	private void initOcrEngine() {
 		tessOCRApi = new TessBaseAPI();
 		tessOCRApi.setDebug(true);
 		try {
@@ -37,7 +38,8 @@ public class OCRTool {
 		} catch (IllegalArgumentException e) {
 			tessOCRApi = null;
 		}
-	 }
+	}
+
 	public boolean isOCREngineReasy() {
 		return tessOCRApi == null ? false : true;
 	}

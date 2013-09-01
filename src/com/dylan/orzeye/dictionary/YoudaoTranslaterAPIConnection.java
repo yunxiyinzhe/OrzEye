@@ -7,14 +7,15 @@ import java.net.URL;
 
 public class YoudaoTranslaterAPIConnection {
 
-	private static final int REQUEST_TIME_OUT = 1000*10;
-	private static final int READ_TIME_OUT = 1000*5;
-	
+	private static final int REQUEST_TIME_OUT = 1000 * 10;
+	private static final int READ_TIME_OUT = 1000 * 5;
+
 	public static HttpURLConnection getHttpConnection(String urlString) {
 		HttpURLConnection con = null;
-		
+
 		try {
 			con = (HttpURLConnection) new URL(urlString).openConnection();
+
 			con.setReadTimeout(READ_TIME_OUT);
 			con.setConnectTimeout(REQUEST_TIME_OUT);
 		} catch (MalformedURLException e) {

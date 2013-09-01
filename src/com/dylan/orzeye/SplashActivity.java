@@ -16,52 +16,53 @@ import android.view.Window;
 
 public class SplashActivity extends Activity {
 	public static final String APP_PATH = Environment
-	.getExternalStorageDirectory().toString() + "/OrzEye";
+			.getExternalStorageDirectory().toString() + "/OrzEye";
 	public static final String OCR_DATA_PATH = APP_PATH + "/tessdata/";;
 	public static final String DIC_DATA_PATH = APP_PATH + "/dictionary/";
-	
+
 	private final String DIC_DATA_FILENAME = "dictionary.db";
 	private final String OCR_DATA_FILENAME = "eng.traineddata";
-	
+
 	private final int SPLASH_DISPLAY_LENGHT = 3000;
 	private boolean isOCRDataExisted = false;
 	private boolean isDictionaryDataExisted = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_splash);
-		
-		if(isDataFileExisted()) {	
-			new Handler().postDelayed(new Runnable(){
-				
+
+		if (isDataFileExisted()) {
+			new Handler().postDelayed(new Runnable() {
+
 				@Override
 				public void run() {
-					Intent mainIntent = new Intent(SplashActivity.this,CameraActivity.class);
+					Intent mainIntent = new Intent(SplashActivity.this,
+							CameraActivity.class);
 					SplashActivity.this.startActivity(mainIntent);
 					SplashActivity.this.finish();
 				}
 			}, SPLASH_DISPLAY_LENGHT);
-		}
-		else {
+		} else {
 			final ProgressDialog dialog = new ProgressDialog(this);
 			dialog.setTitle("数据安装中...");
 			dialog.setMessage("请稍后...");
 			dialog.show();
 			final Handler handler = new Handler() {
-				public void handleMessage(android.os.Message msg) 
-				{
+				public void handleMessage(android.os.Message msg) {
 					dialog.cancel();
 				}
 			};
-			
+
 			Thread thread = new Thread(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					installDataFile();
 					handler.sendEmptyMessage(0);
-					Intent mainIntent = new Intent(SplashActivity.this,CameraActivity.class);
+					Intent mainIntent = new Intent(SplashActivity.this,
+							CameraActivity.class);
 					SplashActivity.this.startActivity(mainIntent);
 					SplashActivity.this.finish();
 				}
@@ -71,16 +72,17 @@ public class SplashActivity extends Activity {
 	}
 
 	private void installDataFile() {
-		if(!(new File(APP_PATH)).exists()) {
+		if (!(new File(APP_PATH)).exists()) {
 			(new File(APP_PATH)).mkdir();
 		}
-		
-		if(!isOCRDataExisted) {
+
+		if (!isOCRDataExisted) {
 			copyDataFileToAppFolder(OCR_DATA_PATH, OCR_DATA_FILENAME, R.raw.eng);
 		}
-		
-		if(!isDictionaryDataExisted) {
-			copyDataFileToAppFolder(DIC_DATA_PATH, DIC_DATA_FILENAME, R.raw.dictionary);
+
+		if (!isDictionaryDataExisted) {
+			copyDataFileToAppFolder(DIC_DATA_PATH, DIC_DATA_FILENAME,
+					R.raw.dictionary);
 		}
 	}
 
@@ -88,27 +90,27 @@ public class SplashActivity extends Activity {
 		if ((new File(OCR_DATA_PATH + OCR_DATA_FILENAME)).exists()) {
 			isOCRDataExisted = true;
 		}
-		
+
 		if ((new File(DIC_DATA_PATH + DIC_DATA_FILENAME)).exists()) {
 			isDictionaryDataExisted = true;
 		}
-		
+
 		return isOCRDataExisted && isDictionaryDataExisted;
 	}
-	
-	private void copyDataFileToAppFolder(String filePath, String fileName, int source) {
-		if(!(new File(filePath)).exists()) {
+
+	private void copyDataFileToAppFolder(String filePath, String fileName,
+			int source) {
+		if (!(new File(filePath)).exists()) {
 			(new File(filePath)).mkdir();
 		}
-		
+
 		try {
 			InputStream is = getResources().openRawResource(source);
 			FileOutputStream fos;
 			fos = new FileOutputStream(filePath + fileName);
 			byte[] buffer = new byte[8192];
 			int count = 0;
-			while ((count = is.read(buffer)) > 0)
-			{
+			while ((count = is.read(buffer)) > 0) {
 				fos.write(buffer, 0, count);
 			}
 			fos.close();
@@ -119,12 +121,11 @@ public class SplashActivity extends Activity {
 			e.printStackTrace();
 		}
 
-
 	}
-	
+
 	@Override
-    public void onBackPressed() {
-		//do nothing
-    }
-	
+	public void onBackPressed() {
+		// do nothing
+	}
+
 }
