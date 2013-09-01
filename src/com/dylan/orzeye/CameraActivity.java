@@ -3,11 +3,14 @@ package com.dylan.orzeye;
 import java.io.IOException;
 
 import com.dylan.orzeye.dictionary.DictionaryTool;
+import com.dylan.orzeye.dictionary.YoudaoTranslater;
 import com.dylan.orzeye.image.ImageProcessTool;
 import com.dylan.orzeye.ocr.OCRTool;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -32,8 +35,10 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,P
 	private Camera mCamera = null;
 	private TextView resultView;
 	private ImageButton triggerButton;
+	private ImageButton dicWebSearchButton;
 	private DisplayMetrics dm;
 	
+	private final String[] recognizedText = {new String("")};
 	private OCRTool mOCRTool;
 	private DictionaryTool mDictionaryTool;
 	@Override
@@ -41,7 +46,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,P
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_camera);
-		
+
 		mPreviewSV = (SurfaceView)findViewById(R.id.surfaceView);
 		mPreviewSV.setZOrderOnTop(false);
 		mSurfaceHolder = mPreviewSV.getHolder();
@@ -50,9 +55,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,P
 		
 		triggerButton = (ImageButton)findViewById(R.id.triggerButton);
 		triggerButton.setOnClickListener(new TriggerButtonOnClickListener());
-		resultView = (TextView)findViewById(R.id.ResultView);
-		resultView.setText("");
 		
+		dicWebSearchButton = (ImageButton)findViewById(R.id.web_search_btn);
+		dicWebSearchButton.setOnClickListener(new WebSearchButtonOnClickListener());
+		
+		resultView = (TextView)findViewById(R.id.ResultView);
+				
 		dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		
@@ -69,7 +77,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,P
 		try {
 			mCamera.setPreviewDisplay(mSurfaceHolder);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			if(null != mCamera){
 				mCamera.release();
 				mCamera = null;
@@ -117,34 +124,28 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,P
 	public void onPreviewFrame(final byte[] data, final Camera camera) { 
 		if(null != data){
 			enableTriggerButton(false);
-			
-			final ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setTitle("正在识别中...");
-			dialog.setMessage("请稍后...");
-			dialog.show();
-			final String[] textDisplayOnView = {new String("")}; 
-			final Handler handler = new Handler() {
-				public void handleMessage(android.os.Message msg) 
-				{
-					dialog.cancel();
-					resultView.setText(textDisplayOnView[0]);
-				}
-			};
+
+			final Handler handler = showProgressDialog("正在识别中...", "请稍后...");
 			
 			Thread thread = new Thread(new Runnable() {
 				
 				@Override
 				public void run() {
+					String textDisplayOnView;
 					Bitmap ocrBitmap = ImageProcessTool.getOCRBitmapFromCamera(data, camera, dm);
 					if(mOCRTool.isOCREngineReasy() && mDictionaryTool.isDictionaryReady()) {
-						String recognizedText = mOCRTool.OCRStart(ocrBitmap);
-						String result = mDictionaryTool.lookUpDictionary(recognizedText.toLowerCase());
-						textDisplayOnView[0] = recognizedText + "\n" + result;
+						recognizedText[0] = mOCRTool.OCRStart(ocrBitmap);
+						String result = mDictionaryTool.lookUpDictionary(recognizedText[0].toLowerCase());
+						textDisplayOnView = recognizedText[0] + "\n" + result;
 					}
 					else {
-						textDisplayOnView[0] = "OCR Data or Dictionary Data can not be found!";
+						textDisplayOnView = "OCR Data or Dictionary Data can not be found!";
 					}
-					handler.sendEmptyMessage(0);
+					Message msg = new Message();
+					Bundle bundle = new Bundle();
+					bundle.putString("Text", textDisplayOnView);
+					msg.setData(bundle);
+					handler.sendMessage(msg);
 				}
 			});
 			thread.start();
@@ -153,9 +154,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,P
 
 		}
 	}
-	
-    private void enableTriggerButton(boolean enable) {
-		// TODO Auto-generated method stub
+
+	private void enableTriggerButton(boolean enable) {
         triggerButton.setOnClickListener(enable ? new TriggerButtonOnClickListener() : null);
 		triggerButton.setEnabled(enable);
 	}
@@ -172,14 +172,67 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,P
     		finish();
     	}
     }
+    
+    private Handler showProgressDialog(String title, String msg) {
+		final ProgressDialog dialog = new ProgressDialog(this);
+		dialog.setTitle(title);
+		dialog.setMessage(msg);
+		dialog.show();
+
+		final Handler handler = new Handler() {
+			public void handleMessage(android.os.Message msg) 
+			{
+				dialog.cancel();
+				resultView.setText(msg.getData().getString("Text"));
+			}
+		};
+		return handler;
+	}
+    
     class TriggerButtonOnClickListener implements OnClickListener {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			if(null != mCamera && isPreview)
 			{
 				mCamera.setOneShotPreviewCallback(CameraActivity.this);
+			}
+		}
+    }
+    
+    class WebSearchButtonOnClickListener implements OnClickListener {
+    	
+		@Override
+		public void onClick(View v) {
+			if(recognizedText[0].isEmpty()) {
+				Toast.makeText(CameraActivity.this, "Text is empty.", Toast.LENGTH_SHORT).show();
+			}
+			else {
+
+				final Handler handler = showProgressDialog("正在查询中...", "请稍后...");
+				
+				Thread thread = new Thread(new Runnable() {
+					final String TIMEOUT_CODE = "-1";
+					@Override
+					public void run() {
+						Looper.prepare();
+						String result = YoudaoTranslater.translate(recognizedText[0]);
+						
+						if(TIMEOUT_CODE.equals(result)) {
+							result = recognizedText[0];
+							Toast.makeText(CameraActivity.this, "Please check your network.", Toast.LENGTH_SHORT).show();
+						}
+						
+						Message msg = new Message();
+						Bundle bundle = new Bundle();
+						bundle.putString("Text", recognizedText[0] + "\n" + result);
+						msg.setData(bundle);
+						handler.sendMessage(msg);
+						Looper.loop();
+					}
+				});
+				thread.start();
+				
 			}
 		}
     }

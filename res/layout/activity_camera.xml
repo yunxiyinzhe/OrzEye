@@ -78,7 +78,7 @@
                         android:gravity="center" >
 
                         <ImageButton
-                            android:id="@+id/web_searcg_btn"
+                            android:id="@+id/web_search_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/dict_web_search_icon" />
