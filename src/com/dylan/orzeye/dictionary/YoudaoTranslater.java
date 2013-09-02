@@ -14,9 +14,8 @@ import com.dylan.orzeye.dictionary.YoudaoTranslaterAPIConnection;
 
 public class YoudaoTranslater {
 	private final static String URL_STRING = "http://fanyi.youdao.com/openapi.do?keyfrom=OrzEye&key=1924278310&type=data&doctype=json&version=1.1&q=";
-	private final static String TIMEOUT_CODE = "-1";
 
-	public static String translate(String text) {
+	public static YoudaoJsonParser translate(String text) {
 
 		String jsonStr = "";
 		HttpURLConnection httpURLConnection = null;
@@ -24,6 +23,7 @@ public class YoudaoTranslater {
 		httpURLConnection = YoudaoTranslaterAPIConnection
 				.getHttpConnection(YoudaoAPIURL);
 
+		YoudaoJsonParser youdaoJsonParser = null;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					httpURLConnection.getInputStream(), "utf-8"));
@@ -37,22 +37,16 @@ public class YoudaoTranslater {
 			}
 
 			jsonStr = sb.toString();
-			JSONObject jsonObj = null;
-			jsonObj = (JSONObject) new JSONParser().parse(jsonStr);
-			if ("0".equals(jsonObj.get("errorCode").toString())) {
-				jsonStr = jsonObj.get("translation").toString();
-			}
+			youdaoJsonParser = new YoudaoJsonParser(jsonStr);
+			//TODO handel error
 		} catch (Exception e) {
-			if (e instanceof SocketTimeoutException) {
-				jsonStr = TIMEOUT_CODE;
-			}
 			e.printStackTrace();
 		} finally {
 			YoudaoTranslaterAPIConnection
 					.closeHttpConnection(httpURLConnection);
 		}
 
-		return jsonStr;
+		return youdaoJsonParser;
 	}
 
 	private static String getAdressUrl(String text) {

@@ -3,6 +3,7 @@ package com.dylan.orzeye;
 import java.io.IOException;
 
 import com.dylan.orzeye.dictionary.DictionaryTool;
+import com.dylan.orzeye.dictionary.YoudaoJsonParser;
 import com.dylan.orzeye.dictionary.YoudaoTranslater;
 import com.dylan.orzeye.image.ImageProcessTool;
 import com.dylan.orzeye.ocr.OCRTool;
@@ -13,6 +14,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
@@ -34,7 +36,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 	private SurfaceView mPreviewSV = null;
 	private SurfaceHolder mSurfaceHolder = null;
 	private Camera mCamera = null;
-	private TextView resultView;
+	private TextView recognizedView;
+	private TextView translatedView;
 	private ImageButton triggerButton;
 	private ImageButton dicWebSearchButton;
 	private DisplayMetrics dm;
@@ -62,8 +65,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		dicWebSearchButton
 				.setOnClickListener(new WebSearchButtonOnClickListener());
 
-		resultView = (TextView) findViewById(R.id.ResultView);
-
+		recognizedView = (TextView) findViewById(R.id.RecognizedView);
+		translatedView = (TextView) findViewById(R.id.TranslatedView);
 		dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 
@@ -134,22 +137,21 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 
 				@Override
 				public void run() {
-					String textDisplayOnView;
+					String translatedText;
 					Bitmap ocrBitmap = ImageProcessTool.getOCRBitmapFromCamera(
 							data, camera, dm);
 					if (mOCRTool.isOCREngineReasy()
 							&& mDictionaryTool.isDictionaryReady()) {
 						recognizedText[0] = mOCRTool.OCRStart(ocrBitmap);
-						String result = mDictionaryTool
+						translatedText = mDictionaryTool
 								.lookUpDictionary(recognizedText[0]
 										.toLowerCase());
-						textDisplayOnView = recognizedText[0] + "\n" + result;
 					} else {
-						textDisplayOnView = "OCR Data or Dictionary Data can not be found!";
+						translatedText = "OCR Data or Dictionary Data can not be found!";
 					}
 					Message msg = new Message();
 					Bundle bundle = new Bundle();
-					bundle.putString("Text", textDisplayOnView);
+					bundle.putString("translatedtext", translatedText);
 					msg.setData(bundle);
 					handler.sendMessage(msg);
 				}
@@ -192,7 +194,11 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		final Handler handler = new Handler() {
 			public void handleMessage(android.os.Message msg) {
 				dialog.cancel();
-				resultView.setText(msg.getData().getString("Text"));
+				if(msg.what != 1) {
+					recognizedView.setText(recognizedText[0]);
+					translatedView.setText(msg.getData().getString("translatedtext"));
+				}
+				
 			}
 		};
 		return handler;
@@ -220,28 +226,22 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 				final Handler handler = showProgressDialog("正在查询中...", "请稍后...");
 
 				Thread thread = new Thread(new Runnable() {
-					final String TIMEOUT_CODE = "-1";
 
 					@Override
 					public void run() {
-						Looper.prepare();
-						String result = YoudaoTranslater
+						YoudaoJsonParser youdaoJsonParser = YoudaoTranslater
 								.translate(recognizedText[0]);
-
-						if (TIMEOUT_CODE.equals(result)) {
-							result = recognizedText[0];
-							Toast.makeText(CameraActivity.this,
-									"Please check your network.",
-									Toast.LENGTH_SHORT).show();
+						if(youdaoJsonParser != null) {
+							Intent intent = new Intent();
+							intent.setClass(CameraActivity.this, WebTranslationActivity.class);
+							intent.putExtra("word", recognizedText[0]);
+							intent.putExtra("phonetic", youdaoJsonParser.getPhonetic());
+							intent.putExtra("basicTanslation", youdaoJsonParser.getBasicTanslation());
+							intent.putExtra("webTanslation", youdaoJsonParser.getWebTanslation());
+							startActivity(intent);
 						}
-
-						Message msg = new Message();
-						Bundle bundle = new Bundle();
-						bundle.putString("Text", recognizedText[0] + "\n"
-								+ result);
-						msg.setData(bundle);
-						handler.sendMessage(msg);
-						Looper.loop();
+						
+						handler.sendEmptyMessage(1);
 					}
 				});
 				thread.start();

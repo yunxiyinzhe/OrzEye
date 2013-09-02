@@ -29,6 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.dylan.orzeye.CameraActivity"></activity>
+        <activity android:name="com.dylan.orzeye.WebTranslationActivity"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,11 @@
 package com.dylan.orzeye.ocr;
 
+import java.util.List;
+
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Environment;
 
 public class OCRTool {
@@ -18,8 +21,21 @@ public class OCRTool {
 	}
 
 	public String OCRStart(Bitmap ocrBitmap) {
-		tessOCRApi.setImage(ocrBitmap);
 		try {
+			tessOCRApi.setImage(ocrBitmap);
+			List<Rect> boxRects = tessOCRApi.getWords().getBoxRects();
+			int objectIndex = 0;
+			for(Rect boxRect : boxRects ) {
+				if(boxRect.contains(ocrBitmap.getWidth()/2, ocrBitmap.getHeight()/2)) {
+					break;
+				}
+				objectIndex ++;
+			}
+			if(objectIndex == boxRects.size()) {
+				return "";
+			}
+			Rect objectBoxRect = boxRects.get(objectIndex);
+			tessOCRApi.setImage(Bitmap.createBitmap(ocrBitmap, objectBoxRect.left, objectBoxRect.top, objectBoxRect.width(), objectBoxRect.height()));
 			String recognizedText = tessOCRApi.getUTF8Text();
 			return recognizedText;
 		} catch (Exception e) {

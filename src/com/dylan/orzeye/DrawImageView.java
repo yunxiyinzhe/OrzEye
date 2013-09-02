@@ -33,6 +33,10 @@ public class DrawImageView extends ImageView {
 			DisplayMetrics dm = ((CameraActivity) mContext).getDisplayMetrics();
 			int width = dm.widthPixels;
 			canvas.drawRect(80, 100, width - 80, 200, paint);
+			canvas.clipRect(80, 100, width - 80, 200);
+			canvas.drawARGB(100, 0, 0, 0);
+			canvas.drawLine(width/2-20,150,width/2+20,150,paint);
+			canvas.drawLine(width/2,130,width/2,170,paint);
 		}
 	}
 }
