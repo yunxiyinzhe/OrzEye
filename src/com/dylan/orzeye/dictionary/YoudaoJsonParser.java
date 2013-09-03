@@ -7,48 +7,76 @@ import org.json.simple.parser.ParseException;
 
 public class YoudaoJsonParser extends JSONParser {
 	JSONObject jsonObj;
+	
 	public YoudaoJsonParser(String jsonStr) {
 		try {
 			jsonObj = (JSONObject) parse(jsonStr);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public String getPhonetic() {
-		return ((JSONObject)jsonObj.get("basic")).get("phonetic").toString();
+		String phonetic = "";
+		try {
+			phonetic = ((JSONObject)jsonObj.get("basic")).get("phonetic").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return phonetic;
 		
 	}
 	
 	public String getBasicTanslation() {
 		String basicTanslations = "";
-		JSONArray explains = (JSONArray)((JSONObject)jsonObj.get("basic")).get("explains");
-		for(int i = 0; i < explains.size(); i++) {
-			basicTanslations = basicTanslations + explains.get(i).toString() + "\n";
+		try {
+			JSONArray explains = (JSONArray)((JSONObject)jsonObj.get("basic")).get("explains");
+			for(int i = 0; i < explains.size(); i++) {
+				basicTanslations = basicTanslations + explains.get(i).toString() + "\n";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 		return basicTanslations;
 		
 	}
 	
 	public String getWebTanslation() {
 		String webTanslations = "";
-		JSONArray tanslations = (JSONArray)(jsonObj.get("web"));
-		for(int i = 0; i < tanslations.size(); i++) {
-			JSONObject tanslation = (JSONObject) tanslations.get(i);
-			webTanslations = webTanslations + getWebTanslationValue(tanslation) + " " +getWebTanslationKey(tanslation) + "\n";
+		try {
+			JSONArray tanslations = (JSONArray)(jsonObj.get("web"));
+			for(int i = 0; i < tanslations.size(); i++) {
+				JSONObject tanslation = (JSONObject) tanslations.get(i);
+				webTanslations = webTanslations + getWebTanslationValue(tanslation) + " " +getWebTanslationKey(tanslation) + "\n";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 		return webTanslations;
 		
 	}
 	
 	private String getWebTanslationValue(JSONObject tanslation) {
-		return (tanslation.get("value")).toString();
+		String WebTanslationValue = "";
+		try {
+			WebTanslationValue = (tanslation.get("value")).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return WebTanslationValue;
 		
 	}
 	
 	private String getWebTanslationKey(JSONObject tanslation) {
-		return (tanslation.get("key")).toString();
+		String WebTanslationKey = "";
+		try {
+			WebTanslationKey = (tanslation.get("key")).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return WebTanslationKey;
 		
 	}
 }
