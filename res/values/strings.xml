@@ -2,5 +2,10 @@
 <resources>
 
     <string name="app_name">OrzEye</string>
-
+    <string name="TriggerButtonDescription">Get image for OCR</string>
+    <string name="WebSearchButtonDescription">Use Youdao API to get translation</string>
+    <string name="NotesAddButtonDescription">Add the current word to notes</string>
+    <string name="BasicTranslation">基本翻译</string>
+    <string name="WebTranslation">网络翻译</string>
+    
 </resources>
