@@ -1,6 +1,8 @@
 package com.dylan.orzeye;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.Locale;
 
 import com.dylan.orzeye.dictionary.DictionaryTool;
 import com.dylan.orzeye.dictionary.YoudaoJsonParser;
@@ -35,13 +37,13 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 	private SurfaceView mPreviewSV = null;
 	private SurfaceHolder mSurfaceHolder = null;
 	private Camera mCamera = null;
-	private TextView recognizedView;
-	private TextView translatedView;
-	private ImageButton triggerButton;
-	private ImageButton dicWebSearchButton;
-	private DisplayMetrics dm;
+	private static TextView recognizedView = null;
+	private static TextView translatedView = null;
+	private ImageButton triggerButton = null;
+	private ImageButton dicWebSearchButton = null;
+	private DisplayMetrics dm = null;
 
-	private final String[] recognizedText = { new String("") };
+	private final static String[] recognizedText = { new String("") };
 	private OCRTool mOCRTool;
 	private DictionaryTool mDictionaryTool;
 
@@ -130,8 +132,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		if (null != data) {
 			enableTriggerButton(false);
 
-			final Handler handler = showProgressDialog("识别中...", "请稍候...");
-
+			ProgressDialog dialog = showProgressDialog("识别中...", "请稍候...");
+			final UpdateUIHandler handler = new UpdateUIHandler(dialog, CameraActivity.this);
+			
 			Thread thread = new Thread(new Runnable() {
 
 				@Override
@@ -144,7 +147,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 						recognizedText[0] = mOCRTool.OCRStart(ocrBitmap);
 						translatedText = mDictionaryTool
 								.lookUpDictionary(recognizedText[0]
-										.toLowerCase());
+										.toLowerCase(Locale.getDefault()));
 					} else {
 						translatedText = "OCR Data or Dictionary Data can not be found!";
 					}
@@ -184,25 +187,36 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		}
 	}
 
-	private Handler showProgressDialog(String title, String msg) {
+	private ProgressDialog showProgressDialog(String title, String msg) {
 		final ProgressDialog dialog = new ProgressDialog(this);
 		dialog.setTitle(title);
 		dialog.setMessage(msg);
 		dialog.show();
-
-		final Handler handler = new Handler() {
-			public void handleMessage(android.os.Message msg) {
-				dialog.cancel();
-				if(msg.what != 1) {
-					recognizedView.setText(recognizedText[0]);
-					translatedView.setText(msg.getData().getString("translatedtext"));
-				}
-				
-			}
-		};
-		return handler;
+		
+		return dialog;
 	}
 
+	
+	static class UpdateUIHandler extends Handler {
+		private ProgressDialog dialog;
+		WeakReference<CameraActivity> mActivity;
+		UpdateUIHandler(ProgressDialog dialog, CameraActivity activity) {
+			this.dialog = dialog;
+			mActivity = new WeakReference<CameraActivity>(activity);
+		}
+		public void handleMessage(android.os.Message msg) {
+			if(dialog != null) {
+				dialog.cancel();
+			}
+			if(msg.what != 1 && recognizedView !=null && translatedView !=null) {
+				recognizedView.setText(recognizedText[0]);
+				translatedView.setText(msg.getData().getString("translatedtext"));
+			}
+			
+		}
+	
+	}
+	
 	class TriggerButtonOnClickListener implements OnClickListener {
 
 		@Override
@@ -222,8 +236,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 						Toast.LENGTH_SHORT).show();
 			} else {
 
-				final Handler handler = showProgressDialog("查询中...", "请稍候...");
-
+				ProgressDialog dialog = showProgressDialog("查询中...", "请稍候...");
+				final UpdateUIHandler handler = new UpdateUIHandler(dialog, CameraActivity.this);
+				
 				Thread thread = new Thread(new Runnable() {
 
 					@Override
