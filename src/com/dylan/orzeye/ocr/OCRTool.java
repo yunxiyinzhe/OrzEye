@@ -22,28 +22,42 @@ public class OCRTool {
 
 	public String OCRStart(Bitmap ocrBitmap) {
 		try {
-			tessOCRApi.setImage(ocrBitmap);
-			List<Rect> boxRects = tessOCRApi.getWords().getBoxRects();
-			int objectIndex = 0;
-			for(Rect boxRect : boxRects ) {
-				if(boxRect.contains(ocrBitmap.getWidth()/2, ocrBitmap.getHeight()/2)) {
-					break;
-				}
-				objectIndex ++;
-			}
-			if(objectIndex == boxRects.size()) {
+			
+			Rect centerObjectRect = getCenterObjectRect(ocrBitmap);
+			if(centerObjectRect == null) {
 				return "";
 			}
-			Rect objectBoxRect = boxRects.get(objectIndex);
-			tessOCRApi.setImage(Bitmap.createBitmap(ocrBitmap, objectBoxRect.left, objectBoxRect.top, objectBoxRect.width(), objectBoxRect.height()));
+			tessOCRApi.setImage(Bitmap.createBitmap(ocrBitmap,
+					centerObjectRect.left,
+					centerObjectRect.top, 
+					centerObjectRect.width(),
+					centerObjectRect.height()));
 			String recognizedText = tessOCRApi.getUTF8Text();
 			return recognizedText;
 		} catch (Exception e) {
-			// TODO: handle exception
+		
 		}
 		tessOCRApi.end();
 		return "";
 
+	}
+
+	private Rect getCenterObjectRect(Bitmap ocrBitmap) {
+		tessOCRApi.setImage(ocrBitmap);
+		List<Rect> wordsRects = tessOCRApi.getWords().getBoxRects();
+		int objectIndex = 0;
+		for(Rect rect :wordsRects) {
+			if(rect.contains(ocrBitmap.getWidth()/2, ocrBitmap.getHeight()/2)) {
+				break;
+			}
+			objectIndex ++;	
+		}
+		if(objectIndex == wordsRects.size()) {
+			return null;
+		}
+		else {
+			return wordsRects.get(objectIndex);
+		}
 	}
 
 	private void initOcrEngine() {
