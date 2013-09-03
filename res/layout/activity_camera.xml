@@ -23,28 +23,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2" >
+            android:layout_weight="8"
+            android:background="#00000000" >
+
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
+            android:orientation="vertical"
             android:paddingLeft="40dp"
             android:paddingRight="40dp" >
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="#957FFF00"
-                android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/RecognizedView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:background="#957FFF00"
                     android:gravity="center"
+                    android:height="28dp"
                     android:scrollHorizontally="true"
                     android:textColor="#ff0000"
                     android:textSize="24sp"
@@ -54,14 +52,17 @@
                     android:id="@+id/SepratedView1"
                     android:layout_width="fill_parent"
                     android:layout_height="2dp"
+                    android:layout_below="@id/RecognizedView"
                     android:background="#000000" />
 
                 <TextView
                     android:id="@+id/TranslatedView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="6"
+                    android:layout_below="@id/SepratedView1"
+                    android:background="#957FFF00"
                     android:gravity="center"
+                    android:height="100dp"
                     android:scrollHorizontally="true"
                     android:textColor="#ff0000"
                     android:textSize="24sp"
@@ -71,12 +72,15 @@
                     android:id="@+id/SepratedView2"
                     android:layout_width="fill_parent"
                     android:layout_height="2dp"
+                    android:layout_below="@id/TranslatedView"
                     android:background="#000000" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_below="@id/SepratedView2"
+                    android:background="#957FFF00"
+                    android:baselineAligned="false"
                     android:gravity="center|center_horizontal"
                     android:orientation="horizontal" >
 
@@ -90,7 +94,8 @@
                             android:id="@+id/notes_add_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/dict_result_notes_add_icon" />
+                            android:background="@drawable/dict_result_notes_add_icon"
+                            android:contentDescription="@string/NotesAddButtonDescription" />
 
                     </LinearLayout>
 
@@ -104,19 +109,20 @@
                             android:id="@+id/web_search_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/dict_web_search_icon" />
+                            android:background="@drawable/dict_web_search_icon" 
+                            android:contentDescription="@string/WebSearchButtonDescription"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
-            </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_weight="1" 
+            android:background="#00000000">
 
         </LinearLayout>
 
@@ -131,6 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/tigger_camera_icon"
+                android:contentDescription="@string/TriggerButtonDescription"
                 android:scaleType="centerInside" />
 
         </LinearLayout>
