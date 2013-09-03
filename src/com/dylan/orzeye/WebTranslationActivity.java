@@ -25,9 +25,9 @@ public class WebTranslationActivity extends Activity {
 		
 		Intent intent = getIntent();
 		
-		wordView.setText(intent.getStringExtra("word"));
-		phoneticView.setText(intent.getStringExtra("phonetic"));
-		basicTanslationView.setText(intent.getStringExtra("basicTanslation"));
-		webTanslationView.setText(intent.getStringExtra("webTanslation"));
+		wordView.setText(intent.getStringExtra(getString(R.string.word_key)));
+		phoneticView.setText(intent.getStringExtra(getString(R.string.phonetic_key)));
+		basicTanslationView.setText(intent.getStringExtra(getString(R.string.basictanslation_key)));
+		webTanslationView.setText(intent.getStringExtra(getString(R.string.webtanslation_key)));
 	}
 }

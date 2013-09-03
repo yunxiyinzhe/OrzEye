@@ -132,8 +132,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		if (null != data) {
 			enableTriggerButton(false);
 
-			ProgressDialog dialog = showProgressDialog("识别中...", "请稍候...");
-			final UpdateUIHandler handler = new UpdateUIHandler(dialog, CameraActivity.this);
+			ProgressDialog dialog = showProgressDialog(getString(R.string.ocrprogressdlg_title),
+					getString(R.string.waiting_msg));
+			final UpdateUIHandler handler = new UpdateUIHandler(dialog, CameraActivity.this, getString(R.string.translatedtext_key));
 			
 			Thread thread = new Thread(new Runnable() {
 
@@ -149,11 +150,11 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 								.lookUpDictionary(recognizedText[0]
 										.toLowerCase(Locale.getDefault()));
 					} else {
-						translatedText = "OCR Data or Dictionary Data can not be found!";
+						translatedText = getString(R.string.datanotfound_Msg);
 					}
 					Message msg = new Message();
 					Bundle bundle = new Bundle();
-					bundle.putString("translatedtext", translatedText);
+					bundle.putString(getString(R.string.translatedtext_key), translatedText);
 					msg.setData(bundle);
 					handler.sendMessage(msg);
 				}
@@ -179,7 +180,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 	public void onBackPressed() {
 		long currentTime = System.currentTimeMillis();
 		if ((currentTime - touchTime) >= waitTime) {
-			Toast.makeText(this, "Press again to quit.", Toast.LENGTH_SHORT)
+			Toast.makeText(this, getString(R.string.presstoquit_msg), Toast.LENGTH_SHORT)
 					.show();
 			touchTime = currentTime;
 		} else {
@@ -199,9 +200,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 	
 	static class UpdateUIHandler extends Handler {
 		private ProgressDialog dialog;
+		private String key;
 		WeakReference<CameraActivity> mActivity;
-		UpdateUIHandler(ProgressDialog dialog, CameraActivity activity) {
+		
+		UpdateUIHandler(ProgressDialog dialog, CameraActivity activity, final String key) {
 			this.dialog = dialog;
+			this.key = key;
 			mActivity = new WeakReference<CameraActivity>(activity);
 		}
 		public void handleMessage(android.os.Message msg) {
@@ -210,7 +214,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 			}
 			if(msg.what != 1 && recognizedView !=null && translatedView !=null) {
 				recognizedView.setText(recognizedText[0]);
-				translatedView.setText(msg.getData().getString("translatedtext"));
+				translatedView.setText(msg.getData().getString(key));
 			}
 			
 		}
@@ -232,13 +236,13 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		@Override
 		public void onClick(View v) {
 			if (recognizedText[0].isEmpty()) {
-				Toast.makeText(CameraActivity.this, "Text is empty.",
+				Toast.makeText(CameraActivity.this, getString(R.string.textempty_msg),
 						Toast.LENGTH_SHORT).show();
 			} else {
 
-				ProgressDialog dialog = showProgressDialog("查询中...", "请稍候...");
-				final UpdateUIHandler handler = new UpdateUIHandler(dialog, CameraActivity.this);
-				
+				ProgressDialog dialog = showProgressDialog(getString(R.string.tanslateprogressdlg_msg), getString(R.string.waiting_msg));
+				final UpdateUIHandler handler = new UpdateUIHandler(dialog, CameraActivity.this, getString(R.string.translatedtext_key));
+						
 				Thread thread = new Thread(new Runnable() {
 
 					@Override
@@ -248,10 +252,10 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 						if(youdaoJsonParser != null) {
 							Intent intent = new Intent();
 							intent.setClass(CameraActivity.this, WebTranslationActivity.class);
-							intent.putExtra("word", recognizedText[0]);
-							intent.putExtra("phonetic", youdaoJsonParser.getPhonetic());
-							intent.putExtra("basicTanslation", youdaoJsonParser.getBasicTanslation());
-							intent.putExtra("webTanslation", youdaoJsonParser.getWebTanslation());
+							intent.putExtra(getString(R.string.word_key), recognizedText[0]);
+							intent.putExtra(getString(R.string.phonetic_key), youdaoJsonParser.getPhonetic());
+							intent.putExtra(getString(R.string.basictanslation_key), youdaoJsonParser.getBasicTanslation());
+							intent.putExtra(getString(R.string.webtanslation_key), youdaoJsonParser.getWebTanslation());
 							startActivity(intent);
 						}
 						
