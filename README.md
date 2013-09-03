@@ -1,21 +1,20 @@
 #OrzEye For Android
 * * *
+ä¸­æ–‡å â€œå›§çœ¼è¯†è¯â€ï¼Œæ˜¯ä½¿ç”¨æ‰‹æœºæ‘„åƒå¤´ï¼ˆcameraï¼‰ï¼Œåˆ©ç”¨OCRè¯†åˆ«è‹±æ–‡å­—ç¬¦å¹¶è¿›è¡ŒæŸ¥è¯çš„è½¯ä»¶ã€‚ 
+æœ‰é“è¯å…¸æ‰‹æœºç‰ˆå°±æœ‰è¿™ä¸ªåŠŸèƒ½ã€‚ä»…ä¾›å­¦ä¹ äº¤æµï¼Œè¯†åˆ«ç‡å’Œå“åº”é€Ÿåº¦å’Œæœ‰é“è¯å…¸æ²¡æ³•æ¯”ã€‚
+åŸåˆ›çš„ä¸œè¥¿ä¸å¤šï¼Œæ ¸å¿ƒçš„OCRéƒ¨åˆ†ç›´æ¥ä½¿ç”¨äº†tess-twoã€‚åæœŸä¼šä¸æ–­å®Œå–„ï¼Œæé«˜è¯†åˆ«ç‡å’Œç”¨æˆ·ä½“éªŒã€‚
 
-ÖĞÎÄÃû ¡°‡åÑÛÊ¶´Ê¡±£¬ÊÇÊ¹ÓÃÊÖ»úÉãÏñÍ·£¨camera£©£¬ÀûÓÃOCRÊ¶±ğÓ¢ÎÄ×Ö·û²¢½øĞĞ²é´ÊµÄÈí¼ş¡£ ÓĞµÀ´ÊµäÊÖ»ú°æ¾ÍÓĞÕâ¸ö¹¦ÄÜ¡£
-½ö¹©Ñ§Ï°½»Á÷£¬Ê¶±ğÂÊºÍÏìÓ¦ËÙ¶ÈºÍÓĞµÀ´ÊµäÃ»·¨±È¡£Ô­´´µÄ¶«Î÷²»¶à£¬ºËĞÄµÄOCR²¿·ÖÖ±½ÓÊ¹ÓÃÁËtess-two¡£ºóÆÚ
-»á²»¶ÏÍêÉÆ£¬Ìá¸ßÊ¶±ğÂÊºÍÓÃ»§ÌåÑé¡£
+## ä¾èµ–
 
-## ÒÀÀµ
+* [tess-two](https://github.com/rmtheis/tess-two)å¹¶è®¾ç½®[library project](http://developer.android.com/guide/developing/projects/projects-eclipse.html#SettingUpLibraryProject)
+* [json-simple](http://code.google.com/p/json-simple/downloads/list),æ”¾å…¥libsæ–‡ä»¶å¤¹ä¸­ã€‚
+* [æœ‰é“ç¿»è¯‘API](http://fanyi.youdao.com/openapi)
 
-* [tess-two](https://github.com/rmtheis/tess-two)£¬²¢ÉèÖÃ[library project](http://developer.android.com/guide/developing/projects/projects-eclipse.html#SettingUpLibraryProject)
-* [json-simple](http://code.google.com/p/json-simple/downloads/list)£¬·ÅÈëlibsÎÄ¼ş¼ĞÖĞ¡£
-* [ÓĞµÀ·­ÒëAPI](http://fanyi.youdao.com/openapi)
+## è½¯ä»¶åŠŸèƒ½
+* æ‘„åƒå¤´çŸ©å½¢åŒºåŸŸå–è¯ç¿»è¯‘
+* è”ç½‘é€šè¿‡æœ‰é“ç¿»è¯‘APIæŸ¥çœ‹æ›´å¤šè§£é‡Š
+* ç”Ÿè¯æœ¬åŠŸèƒ½ï¼ˆæœªå®Œæˆï¼‰
 
-## Èí¼ş¹¦ÄÜ
-* ÉãÏñÍ·¾ØĞÎÇøÓòÈ¡´Ê·­Òë
-* ÁªÍøÍ¨¹ıÓĞµÀ·­ÒëAPI²é¿´¸ü¶à½âÊÍ
-* Éú´Ê±¾¹¦ÄÜ£¨Î´Íê³É£©
-
-## ÁªÏµ·½Ê½
-QQ£º375356447
-Î¢²©£ºhttp://t.sina.com.cn/smallredkong
+## è”ç³»æ–¹å¼
+QQï¼š375356447 
+å¾®åšï¼šhttp://t.sina.com.cn/smallredkong
