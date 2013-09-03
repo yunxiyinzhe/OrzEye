@@ -46,8 +46,8 @@ public class SplashActivity extends Activity {
 			}, SPLASH_DISPLAY_LENGHT);
 		} else {
 			final ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setTitle("Êı¾İ°²×°ÖĞ...");
-			dialog.setMessage("ÇëÉÔºó...");
+			dialog.setTitle("å®‰è£…æ•°æ®...");
+			dialog.setMessage("è¯·ç¨å€™...");
 			dialog.show();
 			final Handler handler = new Handler() {
 				public void handleMessage(android.os.Message msg) {

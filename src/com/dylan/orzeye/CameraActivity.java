@@ -130,7 +130,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		if (null != data) {
 			enableTriggerButton(false);
 
-			final Handler handler = showProgressDialog("����ʶ����...", "���Ժ�...");
+			final Handler handler = showProgressDialog("识别中...", "请稍候...");
 
 			Thread thread = new Thread(new Runnable() {
 
@@ -222,7 +222,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 						Toast.LENGTH_SHORT).show();
 			} else {
 
-				final Handler handler = showProgressDialog("���ڲ�ѯ��...", "���Ժ�...");
+				final Handler handler = showProgressDialog("查询中...", "请稍候...");
 
 				Thread thread = new Thread(new Runnable() {
 
