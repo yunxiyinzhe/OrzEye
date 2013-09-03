@@ -10,7 +10,6 @@ import com.dylan.orzeye.ocr.OCRTool;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -131,7 +130,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		if (null != data) {
 			enableTriggerButton(false);
 
-			final Handler handler = showProgressDialog("ÕýÔÚÊ¶±ðÖÐ...", "ÇëÉÔºó...");
+			final Handler handler = showProgressDialog("ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½...", "ï¿½ï¿½ï¿½Ôºï¿½...");
 
 			Thread thread = new Thread(new Runnable() {
 
@@ -223,7 +222,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 						Toast.LENGTH_SHORT).show();
 			} else {
 
-				final Handler handler = showProgressDialog("ÕýÔÚ²éÑ¯ÖÐ...", "ÇëÉÔºó...");
+				final Handler handler = showProgressDialog("ï¿½ï¿½ï¿½Ú²ï¿½Ñ¯ï¿½ï¿½...", "ï¿½ï¿½ï¿½Ôºï¿½...");
 
 				Thread thread = new Thread(new Runnable() {
 
