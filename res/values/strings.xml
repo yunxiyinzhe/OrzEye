@@ -2,10 +2,17 @@
 <resources>
 
     <string name="app_name">OrzEye</string>
-    <string name="TriggerButtonDescription">Get image for OCR</string>
-    <string name="WebSearchButtonDescription">Use Youdao API to get translation</string>
-    <string name="NotesAddButtonDescription">Add the current word to notes</string>
-    <string name="BasicTranslation">基本翻译</string>
-    <string name="WebTranslation">网络翻译</string>
-    
+    <string name="basictranslation_title">基本翻译</string>
+    <string name="webtranslation_title">网络翻译</string>
+    <string name="websearchbutton_description">Use Youdao API to get translation</string>
+    <string name="notesaddbutton_description">Add the current word to notes</string>
+    <string name="triggerbutton_description">trigger camera for ocr</string>
+    <string name="ocrprogressdlg_title">正在识别中</string>
+    <string name="waiting_msg">请稍候</string>
+    <string name="datanotfound_Msg">OCR Data or Dictionary Data can not be found!</string>
+    <string name="presstoquit_msg">Press again to quit</string>
+    <string name="textempty_msg">Text is empty.</string>
+    <string name="tanslateprogressdlg_msg">正在查询中</string>
+    <string name="installdata_msg">安装数据</string>
+                
 </resources>

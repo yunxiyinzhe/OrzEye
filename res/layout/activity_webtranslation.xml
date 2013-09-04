@@ -43,7 +43,7 @@
             android:id="@+id/BasicTitleView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/BasicTranslation"
+            android:text="@string/basictranslation_title"
             android:textSize="24sp" />
 
         <View
@@ -78,7 +78,7 @@
             android:id="@+id/WebTitleView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/WebTranslation"
+            android:text="@string/webtranslation_title"
             android:textSize="24sp" />
 
         <View
