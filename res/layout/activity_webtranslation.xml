@@ -1,101 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/WordView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="0.2"
-        android:background="#957FFF00"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/PhoneticView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="0.2"
-        android:background="#957FFF00"
-        android:textSize="24sp" />
-
-    <RelativeLayout
+    <com.fima.cardsui.views.CardUI
+        android:id="@+id/cardsview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:background="#957FFF00"
-        android:orientation="vertical" >
+        android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/BasicTitleView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/basictranslation_title"
-            android:textSize="24sp" />
-
-        <View
-            android:id="@+id/SepratedView01"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:layout_below="@id/BasicTitleView"
-            android:background="#000000" />
-
-        <TextView
-            android:id="@+id/BasicTranslationView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/SepratedView01"
-            android:scrollbars="vertical"
-            android:textSize="24sp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:background="#957FFF00"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/WebTitleView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/webtranslation_title"
-            android:textSize="24sp" />
-
-        <View
-            android:id="@+id/SepratedView02"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:layout_below="@id/WebTitleView"
-            android:background="#000000" />
-
-        <TextView
-            android:id="@+id/WebTranslationView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/SepratedView02"
-            android:scrollbars="vertical"
-            android:textSize="24sp" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>
