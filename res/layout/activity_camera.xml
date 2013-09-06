@@ -95,7 +95,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/dict_result_notes_add_icon"
-                            android:contentDescription="@string/NotesAddButtonDescription" />
+                            android:contentDescription="@string/notesaddbutton_description" />
 
                     </LinearLayout>
 
@@ -110,7 +110,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/dict_web_search_icon" 
-                            android:contentDescription="@string/WebSearchButtonDescription"/>
+                            android:contentDescription="@string/websearchbutton_description"/>
 
                     </LinearLayout>
 
@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/tigger_camera_icon"
-                android:contentDescription="@string/TriggerButtonDescription"
+                android:contentDescription="@string/triggerbutton_description"
                 android:scaleType="centerInside" />
 
         </LinearLayout>

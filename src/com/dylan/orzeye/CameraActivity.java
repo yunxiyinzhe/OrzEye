@@ -132,7 +132,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		if (null != data) {
 			enableTriggerButton(false);
 
-			ProgressDialog dialog = showProgressDialog("识别中...", "请稍候...");
+			ProgressDialog dialog = showProgressDialog(getString(R.string.ocrprogressdlg_title),
+					getString(R.string.waiting_msg));
 			final UpdateUIHandler handler = new UpdateUIHandler(dialog, CameraActivity.this);
 			
 			Thread thread = new Thread(new Runnable() {
@@ -149,11 +150,11 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 								.lookUpDictionary(recognizedText[0]
 										.toLowerCase(Locale.getDefault()));
 					} else {
-						translatedText = "OCR Data or Dictionary Data can not be found!";
+						translatedText = getString(R.string.datanotfound_Msg);
 					}
 					Message msg = new Message();
 					Bundle bundle = new Bundle();
-					bundle.putString("translatedtext", translatedText);
+					bundle.putString("translated", translatedText);
 					msg.setData(bundle);
 					handler.sendMessage(msg);
 				}
@@ -179,7 +180,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 	public void onBackPressed() {
 		long currentTime = System.currentTimeMillis();
 		if ((currentTime - touchTime) >= waitTime) {
-			Toast.makeText(this, "Press again to quit.", Toast.LENGTH_SHORT)
+			Toast.makeText(this, getString(R.string.presstoquit_msg), Toast.LENGTH_SHORT)
 					.show();
 			touchTime = currentTime;
 		} else {
@@ -200,6 +201,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 	static class UpdateUIHandler extends Handler {
 		private ProgressDialog dialog;
 		WeakReference<CameraActivity> mActivity;
+		
 		UpdateUIHandler(ProgressDialog dialog, CameraActivity activity) {
 			this.dialog = dialog;
 			mActivity = new WeakReference<CameraActivity>(activity);
@@ -210,7 +212,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 			}
 			if(msg.what != 1 && recognizedView !=null && translatedView !=null) {
 				recognizedView.setText(recognizedText[0]);
-				translatedView.setText(msg.getData().getString("translatedtext"));
+				translatedView.setText(msg.getData().getString("translated"));
 			}
 			
 		}
@@ -232,13 +234,13 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		@Override
 		public void onClick(View v) {
 			if (recognizedText[0].isEmpty()) {
-				Toast.makeText(CameraActivity.this, "Text is empty.",
+				Toast.makeText(CameraActivity.this, getString(R.string.textempty_msg),
 						Toast.LENGTH_SHORT).show();
 			} else {
 
-				ProgressDialog dialog = showProgressDialog("查询中...", "请稍候...");
+				ProgressDialog dialog = showProgressDialog(getString(R.string.tanslateprogressdlg_msg), getString(R.string.waiting_msg));
 				final UpdateUIHandler handler = new UpdateUIHandler(dialog, CameraActivity.this);
-				
+						
 				Thread thread = new Thread(new Runnable() {
 
 					@Override
@@ -250,8 +252,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 							intent.setClass(CameraActivity.this, WebTranslationActivity.class);
 							intent.putExtra("word", recognizedText[0]);
 							intent.putExtra("phonetic", youdaoJsonParser.getPhonetic());
-							intent.putExtra("basicTanslation", youdaoJsonParser.getBasicTanslation());
-							intent.putExtra("webTanslation", youdaoJsonParser.getWebTanslation());
+							intent.putExtra("basictanslation", youdaoJsonParser.getBasicTanslation());
+							intent.putExtra("webtanslation", youdaoJsonParser.getWebTanslation());
 							startActivity(intent);
 						}
 						

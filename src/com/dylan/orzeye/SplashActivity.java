@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,18 +16,20 @@ import android.content.Intent;
 import android.view.Window;
 
 public class SplashActivity extends Activity {
-	public static final String APP_PATH = Environment
-			.getExternalStorageDirectory().toString() + "/OrzEye";
+	public final static String SD_PATH = Environment
+			.getExternalStorageDirectory().toString() ;
+	public static  String APP_PATH = SD_PATH + "/OrzEye";;
 	public static final String OCR_DATA_PATH = APP_PATH + "/tessdata/";;
 	public static final String DIC_DATA_PATH = APP_PATH + "/dictionary/";
 
 	private final String DIC_DATA_FILENAME = "dictionary.db";
 	private final String OCR_DATA_FILENAME = "eng.traineddata";
 
+
 	private final int SPLASH_DISPLAY_LENGHT = 3000;
 	private boolean isOCRDataExisted = false;
 	private boolean isDictionaryDataExisted = false;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,14 +49,10 @@ public class SplashActivity extends Activity {
 			}, SPLASH_DISPLAY_LENGHT);
 		} else {
 			final ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setTitle("安装数据...");
-			dialog.setMessage("请稍候...");
+			dialog.setTitle(getString(R.string.installdata_msg));
+			dialog.setMessage(getString(R.string.waiting_msg));
 			dialog.show();
-			final Handler handler = new Handler() {
-				public void handleMessage(android.os.Message msg) {
-					dialog.cancel();
-				}
-			};
+			final UpdateUIHandler handler = new UpdateUIHandler(dialog, SplashActivity.this);
 
 			Thread thread = new Thread(new Runnable() {
 
@@ -128,4 +127,19 @@ public class SplashActivity extends Activity {
 		// do nothing
 	}
 
+	static class UpdateUIHandler extends Handler {
+		private ProgressDialog dialog;
+		WeakReference<SplashActivity> mActivity;
+		
+		UpdateUIHandler(ProgressDialog dialog, SplashActivity activity) {
+			this.dialog = dialog;
+			mActivity = new WeakReference<SplashActivity>(activity);
+		}
+		public void handleMessage(android.os.Message msg) {
+			if(dialog != null) {
+				dialog.cancel();
+			}
+		}
+	
+	}
 }
