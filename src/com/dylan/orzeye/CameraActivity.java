@@ -22,12 +22,16 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.util.DisplayMetrics;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +45,14 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 	private static TextView translatedView = null;
 	private ImageButton triggerButton = null;
 	private ImageButton dicWebSearchButton = null;
+	private ImageButton overflowMenu_Button = null;
 	private DisplayMetrics dm = null;
 
 	private final static String[] recognizedText = { new String("") };
+	
 	private OCRTool mOCRTool;
 	private DictionaryTool mDictionaryTool;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +66,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		mSurfaceHolder.setFormat(PixelFormat.TRANSPARENT);
 		mSurfaceHolder.addCallback(this);
 
-		triggerButton = (ImageButton) findViewById(R.id.triggerButton);
+		triggerButton = (ImageButton) findViewById(R.id.TriggerButton);
 		triggerButton.setOnClickListener(new TriggerButtonOnClickListener());
 
 		dicWebSearchButton = (ImageButton) findViewById(R.id.web_search_btn);
@@ -68,6 +75,45 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 
 		recognizedView = (TextView) findViewById(R.id.RecognizedView);
 		translatedView = (TextView) findViewById(R.id.TranslatedView);
+		
+		overflowMenu_Button = (ImageButton) findViewById(R.id.Overflow_Menu);
+		overflowMenu_Button.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				PopupMenu overflowMneu = new PopupMenu(getBaseContext(), v);
+				MenuInflater inflater = overflowMneu.getMenuInflater();
+				inflater.inflate(R.menu.overflow_menu, overflowMneu.getMenu());
+				
+				overflowMneu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						Intent intent = new Intent();
+						switch (item.getItemId()) {
+						case R.id.notes_item:
+							intent.setClass(CameraActivity.this, MainTabsActivity.class);
+							intent.putExtra("position", 0);
+							break;
+							
+						case R.id.dictionary_item:
+							intent.setClass(CameraActivity.this, MainTabsActivity.class);
+							intent.putExtra("position", 1);
+							break;
+							
+						default:
+							break;
+						}
+						
+						startActivity(intent);
+						return true;
+					}
+				});
+				overflowMneu.show();
+				
+			}
+		});
+		
 		dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 

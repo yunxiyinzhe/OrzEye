@@ -13,7 +13,7 @@
     <com.dylan.orzeye.DrawImageView
         android:id="@+id/drawRect"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent" android:background="#00000000"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
+            android:layout_weight="5"
             android:background="#00000000" >
 
         </LinearLayout>
@@ -118,29 +118,41 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" 
-            android:background="#00000000">
-
-        </LinearLayout>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="bottom|center" >
 
             <ImageButton
-                android:id="@+id/triggerButton"
+                android:id="@+id/Overflow_Menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/menu_moreoverflow_icon"
+                android:contentDescription="@string/overflowmenu_description" />
+            
+            <ImageButton
+                android:id="@+id/TriggerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/tigger_camera_icon"
                 android:contentDescription="@string/triggerbutton_description"
                 android:scaleType="centerInside" />
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/Space_Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/menu_moreoverflow_icon"
+                android:contentDescription="@string/spaceview_description"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

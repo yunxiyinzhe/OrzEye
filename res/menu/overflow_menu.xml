@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+  
+    <group android:id="@+id/overflow_menus">
+          <item android:id="@+id/notes_item"
+               android:title="@string/notes_menuitem" >          
+          </item>
+          
+          <item android:id="@+id/dictionary_item" 
+              android:title="@string/dictionary_menuitem" >
+          </item>
+        
+    </group>
+    
+</menu>

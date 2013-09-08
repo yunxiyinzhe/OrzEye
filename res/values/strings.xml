@@ -17,5 +17,10 @@
     <string name="textempty_msg">Text is empty.</string>
     <string name="tanslateprogressdlg_msg">正在查询中</string>
     <string name="installdata_msg">安装数据</string>
+    <string name="spaceview_description">Just a space</string>
+    <string name="overflowmenu_description">A overflow menu</string>
+    <string name="notes_menuitem">笔记本</string>
+    <string name="dictionary_menuitem">词典</string>
+    <string name="menuitemicon_description">Overflow Menu Item icon</string>
      
 </resources>
