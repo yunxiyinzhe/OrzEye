@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- android:dither Enables or disables dithering of the bitmap if the bitmap 
+	does not have the same pixel configuration as the screen (for instance: a 
+	ARGB 8888 bitmap with an RGB 565 screen). -->
+<!-- RGB565彩色模式, 一个像素占两个字节， 其中: 第一个字节的前5位用来表示R(Red) 第一个字节的后三位+第二个字节的前三位用来表示G(Green)第二个字节的后5位用来表示B(Blue). -->
+<!-- 关于android:dither的示例请参考：http://stackoverflow.com/questions/2210976/android-view-dithering -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+	android:dither="true">
+	<item android:state_pressed="true"
+		android:drawable="@drawable/qa_btn_pressed"
+	></item>
+	<item android:state_focused="true"
+		android:drawable="@drawable/qa_btn_focused"
+	></item>
+	<item android:drawable="@drawable/qa_btn_normal"
+	></item>
+</selector>
