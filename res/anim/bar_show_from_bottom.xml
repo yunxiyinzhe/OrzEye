@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- set:组织其它动画元素的标签。 -->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- set内部标签可有：alpha、scale、translate、rotate及内嵌set。 -->
+	<!-- 查看@android:integer/config_shortAnimTime的具体值可于<SDK_PATH>\platforms\<android-level>\data\res\values\config.xml -->
+	<scale
+		android:fromXScale="0.3" android:toXScale="1.0"
+		android:fromYScale="0.3" android:toYScale="1.0"
+		android:pivotX="50%" android:pivotY="100%"
+		android:duration="@android:integer/config_shortAnimTime">
+	</scale>
+	<alpha
+		android:interpolator="@android:anim/decelerate_interpolator"
+		android:fromAlpha="0.0" android:toAlpha="1.0"
+		android:duration="@android:integer/config_shortAnimTime">
+	</alpha>
+</set>

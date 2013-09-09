@@ -30,7 +30,7 @@
         </activity>
         <activity android:name="com.dylan.orzeye.CameraActivity"></activity>
         <activity android:name="com.dylan.orzeye.WebTranslationActivity"></activity>
-        <activity android:name="com.dylan.orzeye.MainTabsActivity"></activity>
+        <activity android:name="com.dylan.orzeye.MainTabsActivity" android:theme="@style/StyledIndicators"></activity>
     </application>
 
 </manifest>
