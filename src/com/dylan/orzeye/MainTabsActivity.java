@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Window;
+
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -19,6 +21,7 @@ public class MainTabsActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_maintabs);
 
         FragmentPagerAdapter adapter = new  TabPageIndicatorAdapter(getSupportFragmentManager());
@@ -41,10 +44,10 @@ public class MainTabsActivity extends FragmentActivity {
         	Fragment fragment = null; 
         	switch (position) {
 			case 0:
-				fragment = new DictionaryFragment();
+				fragment = new NotesFragment();
 				break;
 			case 1:
-				fragment = new NotesFragment();
+				fragment = new DictionaryFragment();
 				break;
 			default:
 				break;

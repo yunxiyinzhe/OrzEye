@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<dimen name="list_first_char_hint_text_size">15sp</dimen>
+	<dimen name="list_item_order_number_size">30sp</dimen>
+	<dimen name="list_item_first_view_right_margin">30sp</dimen>
+	<dimen name="list_item_first_char_padding">10dip</dimen>
+	<dimen name="list_item_name_size">25sp</dimen>
+	<dimen name="list_item_url_size">10sp</dimen>
+	<dimen name="list_item_divider_margin">5dip</dimen>
+	<dimen name="list_item_icon_length">50sp</dimen>
+	<dimen name="popup_char_min_length">70dip</dimen>
+	<dimen name="qa_action_item_padding">15dip</dimen>
+	<dimen name="qa_action_item_name_size">15sp</dimen>
+	<dimen name="info_dialog_expend">10dip</dimen>
+</resources>
