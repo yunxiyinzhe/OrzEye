@@ -65,7 +65,7 @@
 			android:layout_width="@dimen/list_item_icon_length"  
 			android:layout_height="@dimen/list_item_icon_length"  
 			android:focusable="false"
-			android:src="@drawable/person"
+			android:src="@drawable/notes_more_action_icon"
 			android:cacheColorHint="#00000000"
 		></ImageView>
 	</LinearLayout>

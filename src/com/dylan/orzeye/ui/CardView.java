@@ -1,4 +1,4 @@
-package com.dylan.orzeye;
+package com.dylan.orzeye.ui;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dylan.orzeye.R;
 import com.fima.cardsui.objects.Card;
 
 public class CardView extends Card {

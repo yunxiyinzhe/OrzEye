@@ -1,7 +1,8 @@
-package com.dylan.orzeye;
+package com.dylan.orzeye.ui;
 
 import java.util.Vector;
 
+import com.dylan.orzeye.R;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,26 +15,12 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-/**
- * @author Sodino E-mail:sodinoopen@hotmail.com
- * @version Time：2011-5-2 下午09:57:23
- */
 public class QuickActionBar {
-	public static final int ANIM_GROW_FROM_LEFT = 1;
-	public static final int ANIM_GROW_FROM_RIGHT = 2;
-	public static final int ANIM_GROW_FROM_CENTER = 3;
-
-	public static final int ANIM_AUTO = 4;
-	public static final Interpolator interpolator;
-
 	private View anchor;
 	private Vector<ActionItem> vecActions;
 	private PopupWindow popupWindow;
@@ -41,19 +28,10 @@ public class QuickActionBar {
 	
 	private int phoneScreenWidth;
 	private int phoneScreenHeight;
-	private int animType;
-	
+
 	private LayoutInflater inflater;
 	private Drawable popupWindowBackground;
-	private ImageView arrowUp;
-	private ImageView arrowDown;
-	private boolean enableActionsLayout;
-	private Animation actionsLayoutAnim;
 	private int listItemIndex;
-
-	static {
-		interpolator = new CustomInterpolator();
-	}
 
 	public QuickActionBar(View anchor, int idx) {
 		if (vecActions == null) {
@@ -80,21 +58,6 @@ public class QuickActionBar {
 
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		qaBarRoot = (ViewGroup) inflater.inflate(R.layout.qa_bar, null);
-		arrowUp = (ImageView) qaBarRoot.findViewById(R.id.qa_arrow_up);
-		arrowDown = (ImageView) qaBarRoot.findViewById(R.id.qa_arrow_down);
-		animType = ANIM_AUTO;
-
-		actionsLayoutAnim = AnimationUtils.loadAnimation(anchor.getContext(),
-				R.anim.anim_actionslayout);
-		actionsLayoutAnim.setInterpolator(interpolator);
-	}
-
-	public void setAnimType(int type) {
-		this.animType = type;
-	}
-
-	public void setEnableActionsLayoutAnim(boolean bool) {
-		enableActionsLayout = bool;
 	}
 
 	public void addActionItem(ActionItem actionWeb) {
@@ -117,23 +80,15 @@ public class QuickActionBar {
 		int yPos = anchorRect.bottom;
 
 		int diff = -10;
-		boolean arrowOnTop = true;
+		
 		if (anchorRect.bottom + diff + rootHeight > phoneScreenHeight) {
-			arrowOnTop = false;
 			yPos = anchorRect.top - rootHeight;
 			diff = -diff;
 		}
 
-		int arrowId = arrowOnTop ? R.id.qa_arrow_up : R.id.qa_arrow_down;
-		int marginLeft = anchorRect.centerX() - (arrowUp.getMeasuredWidth() >> 1);
-		handleArrow(arrowId, marginLeft);
-
 		LinearLayout actionsLayout = (LinearLayout) qaBarRoot.findViewById(R.id.actionsLayout);
 		appendActionsItemUI(actionsLayout, vecActions);
 
-
-		setAnimationStyle(phoneScreenWidth, anchorRect.centerX(), arrowOnTop);
-	
 		if (popupWindowBackground == null) {
 			popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		} else {
@@ -146,10 +101,6 @@ public class QuickActionBar {
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setContentView(qaBarRoot);
 		popupWindow.showAtLocation(this.anchor, Gravity.NO_GRAVITY, xPos, yPos + diff);
-
-		if (enableActionsLayout) {
-			actionsLayout.startAnimation(actionsLayoutAnim);
-		}
 	}
 
 	private void appendActionsItemUI(ViewGroup actionsLayout, Vector<ActionItem> vec) {
@@ -186,46 +137,7 @@ public class QuickActionBar {
 		actionItemLayout.setOnClickListener(item.getOnClickListener());
 		return actionItemLayout;
 	}
-
-	private void handleArrow(int arrowShowId, int marginLeft) {
-		View showArrow = (arrowShowId == R.id.qa_arrow_up) ? arrowUp : arrowDown;
-		View hideArrow = (arrowShowId == R.id.qa_arrow_up) ? arrowDown : arrowUp;
-		showArrow.setVisibility(View.VISIBLE);
-		hideArrow.setVisibility(View.INVISIBLE);
-		ViewGroup.MarginLayoutParams param = (ViewGroup.MarginLayoutParams) showArrow
-				.getLayoutParams();
-		param.leftMargin = marginLeft;
-	}
-	private void setAnimationStyle(int screenWidth, int coordinateX, boolean arrowOnTop) {
-		int arrowPos = coordinateX - (arrowUp.getMeasuredWidth() >> 1);
-		switch (animType) {
-		case ANIM_GROW_FROM_LEFT:
-			popupWindow.setAnimationStyle((arrowOnTop) ? R.style.QuickActionBar_PopDown_Left
-					: R.style.QuickActionBar_PopUp_Left);
-			break;
-		case ANIM_GROW_FROM_RIGHT:
-			popupWindow.setAnimationStyle((arrowOnTop) ? R.style.QuickActionBar_PopDown_Right
-					: R.style.QuickActionBar_PopUp_Right);
-			break;
-		case ANIM_GROW_FROM_CENTER:
-			popupWindow.setAnimationStyle((arrowOnTop) ? R.style.QuickActionBar_PopDown_Center
-					: R.style.QuickActionBar_PopUp_Center);
-			break;
-		case ANIM_AUTO:
-			if (arrowPos <= screenWidth / 4) {
-				popupWindow.setAnimationStyle((arrowOnTop) ? R.style.QuickActionBar_PopDown_Left
-						: R.style.QuickActionBar_PopUp_Left);
-			} else if (arrowPos > screenWidth / 4 && arrowPos < 3 * (screenWidth / 4)) {
-				popupWindow.setAnimationStyle((arrowOnTop) ? R.style.QuickActionBar_PopDown_Center
-						: R.style.QuickActionBar_PopUp_Center);
-			} else {
-				popupWindow.setAnimationStyle((arrowOnTop) ? R.style.QuickActionBar_PopDown_Right
-						: R.style.QuickActionBar_PopUp_Right);
-			}
-			break;
-		}
-	}
-
+	
 	public void dismissQuickActionBar() {
 		popupWindow.dismiss();
 	}

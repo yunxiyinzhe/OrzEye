@@ -38,33 +38,4 @@
     <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
         <item name="android:typeface">monospace</item>
     </style>
-    <style name="QuickActionBar"></style>
-	<style name="QuickActionBar.PopDown">
-	</style>
-	<style name="QuickActionBar.PopDown.Left">
-		<item name="@android:windowEnterAnimation">@anim/bar_show_from_topleft_to_bottomright</item>
-		<item name="@android:windowExitAnimation">@anim/bar_hide_from_bottomright_to_topleft</item>
-	</style>
-	<style name="QuickActionBar.PopDown.Right">
-		<item name="@android:windowEnterAnimation">@anim/bar_show_from_topright_to_bottomleft</item>
-		<item name="@android:windowExitAnimation">@anim/bar_hide_from_bottomleft_to_topright</item>
-	</style>
-	<style name="QuickActionBar.PopDown.Center">
-		<item name="@android:windowEnterAnimation">@anim/bar_show_from_top</item>
-		<item name="@android:windowExitAnimation">@anim/bar_hide_from_bottom</item>
-	</style>
-
-	<style name="QuickActionBar.PopUp"></style>
-	<style name="QuickActionBar.PopUp.Left">
-		<item name="@android:windowEnterAnimation">@anim/bar_show_from_bottomleft_to_topright</item>
-		<item name="@android:windowExitAnimation">@anim/bar_hide_from_topright_to_bottomleft</item>
-	</style>
-	<style name="QuickActionBar.PopUp.Right">
-		<item name="@android:windowEnterAnimation">@anim/bar_show_from_bottomright_to_topleft</item>
-		<item name="@android:windowExitAnimation">@anim/bar_hide_from_topleft_to_bottomright</item>
-	</style>
-	<style name="QuickActionBar.PopUp.Center">
-		<item name="@android:windowEnterAnimation">@anim/bar_show_from_bottom</item>
-		<item name="@android:windowExitAnimation">@anim/bar_hide_from_top</item>
-	</style>
 </resources>
