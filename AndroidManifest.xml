@@ -29,8 +29,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.dylan.orzeye.CameraActivity"></activity>
-        <activity android:name="com.dylan.orzeye.WebTranslationActivity"></activity>
-        <activity android:name="com.dylan.orzeye.MainTabsActivity" android:theme="@style/StyledIndicators"></activity>
+        <activity android:name=".ui.WebTranslationActivity"></activity>
+        <activity android:name=".ui.MainTabsActivity" android:theme="@style/StyledIndicators"></activity>
     </application>
 
 </manifest>

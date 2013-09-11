@@ -7,6 +7,6 @@
 	></item>
 	<!-- 非点击状态的背景效果，为了采用了背景图与前景图一致的做法。 -->
 	<item
-	  android:drawable="@drawable/person"
+	  android:drawable="@drawable/notes_more_action_icon"
 	></item>
 </selector>

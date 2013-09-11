@@ -1,4 +1,4 @@
-package com.dylan.orzeye;
+package com.dylan.orzeye.ui;
 
 import android.graphics.drawable.Drawable;
 import android.view.View.OnClickListener;
