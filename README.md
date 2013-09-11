@@ -6,7 +6,7 @@
 
 ## 依赖
 
-* [tess-two](https://github.com/rmtheis/tess-two)并设置[library project](http://developer.android.com/guide/developing/projects/projects-eclipse.html#SettingUpLibraryProject)
+* [tess-two](https://github.com/rmtheis/tess-two),[cardsui-for-android](https://github.com/Androguide/cardsui-for-android),[Android-ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator)并设置[library project](http://developer.android.com/guide/developing/projects/projects-eclipse.html#SettingUpLibraryProject)
 * [json-simple](http://code.google.com/p/json-simple/downloads/list),放入libs文件夹中。
 * [有道翻译API](http://fanyi.youdao.com/openapi)
 
