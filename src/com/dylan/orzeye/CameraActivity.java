@@ -9,6 +9,8 @@ import com.dylan.orzeye.dictionary.YoudaoJsonParser;
 import com.dylan.orzeye.dictionary.YoudaoTranslater;
 import com.dylan.orzeye.image.ImageProcessTool;
 import com.dylan.orzeye.ocr.OCRTool;
+import com.dylan.orzeye.ui.MainTabsActivity;
+import com.dylan.orzeye.ui.WebTranslationActivity;
 
 import android.os.Bundle;
 import android.os.Handler;

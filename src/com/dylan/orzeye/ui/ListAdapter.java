@@ -1,5 +1,6 @@
-package com.dylan.orzeye;
+package com.dylan.orzeye.ui;
 
+import com.dylan.orzeye.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,4 +1,4 @@
-package com.dylan.orzeye;
+package com.dylan.orzeye.ui;
 
 import android.support.v4.app.Fragment;
 

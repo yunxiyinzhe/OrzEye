@@ -1,4 +1,4 @@
-package com.dylan.orzeye;
+package com.dylan.orzeye.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Window;
 
+import com.dylan.orzeye.R;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 

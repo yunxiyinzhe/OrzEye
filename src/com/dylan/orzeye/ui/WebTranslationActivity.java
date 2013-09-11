@@ -1,5 +1,6 @@
-package com.dylan.orzeye;
+package com.dylan.orzeye.ui;
 
+import com.dylan.orzeye.R;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
 
