@@ -24,11 +24,10 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
 		android.view.View.OnClickListener {
 	private Handler handler;
 	private DisapearThread disapearThread;
-	/** 标识List的滚动状态。 */
 	private int scrollState;
-	private ListAdapter listAdapter;
-	private ListView listMain;
-	private TextView txtOverlay;
+	private NotesWordListAdapter listAdapter;
+	private ListView notesWordList;
+	private TextView charHint;
 	private WindowManager windowManager;
 	
 	@Override
@@ -40,21 +39,19 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
     		Bundle savedInstanceState) {
     	View view = inflater.inflate( R.layout.activity_notes,container, false);
     	handler = new Handler();
-   		// 初始化首字母悬浮提示框
-   		txtOverlay = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.popup_char_hint, null);
-   		txtOverlay.setVisibility(View.INVISIBLE);
+   		charHint = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.notes_popup_char_hint, null);
+   		charHint.setVisibility(View.INVISIBLE);
    		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(LayoutParams.WRAP_CONTENT,
    				LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_APPLICATION,
    				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
    						| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, PixelFormat.TRANSLUCENT);
    		windowManager = (WindowManager)getActivity().getSystemService(Context.WINDOW_SERVICE);
-   		windowManager.addView(txtOverlay, lp);
-   		// 初始化ListAdapter
-   		listAdapter = new ListAdapter(getActivity(), stringArr, this);
-   		listMain = (ListView) view.findViewById(R.id.listInfo);
-   		listMain.setOnItemClickListener(this);
-   		listMain.setOnScrollListener(this);
-   		listMain.setAdapter(listAdapter);
+   		windowManager.addView(charHint, lp);
+   		listAdapter = new NotesWordListAdapter(getActivity(), stringArr, this);
+   		notesWordList = (ListView) view.findViewById(R.id.notes_word_list);
+   		notesWordList.setOnItemClickListener(this);
+   		notesWordList.setOnScrollListener(this);
+   		notesWordList.setAdapter(listAdapter);
    		disapearThread = new DisapearThread();
     	   return view;
     }
@@ -62,8 +59,7 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
 	/** ListView.OnScrollListener */
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
 			int totalItemCount) {
-		// 以中间的ListItem为标准项。
-		txtOverlay.setText(String.valueOf(stringArr[firstVisibleItem + (visibleItemCount >> 1)]
+		charHint.setText(String.valueOf(stringArr[firstVisibleItem + (visibleItemCount >> 1)]
 				.charAt(0)));
 	}
 
@@ -72,58 +68,48 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
 		this.scrollState = scrollState;
 		if (scrollState == ListView.OnScrollListener.SCROLL_STATE_IDLE) {
 			handler.removeCallbacks(disapearThread);
-			// 提示延迟1.5s再消失
 			boolean bool = handler.postDelayed(disapearThread, 1500);
 			Log.d("ANDROID_INFO", "postDelayed=" + bool);
 		} else {
-			txtOverlay.setVisibility(View.VISIBLE);
+			charHint.setVisibility(View.VISIBLE);
 		}
 	}
 
-	/** OnItemClickListener */
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		
 	}
 
-	/**
-	 * View.OnClickListener <br/>
-	 * 点击“咧牙”图片。<br/>
-	 */
 	public void onClick(View view) {
 		if (view instanceof ImageView) {
-			// "咧牙"图标
 			int position = ((Integer) view.getTag()).intValue();
-			ActionItem actionViewNotesWord = new ActionItem(getResources().getDrawable(R.drawable.view_notes__word_icon),
+			NotesMoreActionItem actionViewNotesWord = new NotesMoreActionItem(getResources().getDrawable(R.drawable.view_notes__word_icon),
 					"View", this);
-			ActionItem actionDeleteNotesWord = new ActionItem(getResources().getDrawable(R.drawable.delete_notes_word_icon),
+			NotesMoreActionItem actionDeleteNotesWord = new NotesMoreActionItem(getResources().getDrawable(R.drawable.delete_notes_word_icon),
 					"Delete", this);
 
-			QuickActionBar qaBar = new QuickActionBar(view, position);
+			NotesMoreActionBar qaBar = new NotesMoreActionBar(view, position);
 			qaBar.addActionItem(actionViewNotesWord);
 			qaBar.addActionItem(actionDeleteNotesWord);
 			qaBar.show();
 		} else if (view instanceof LinearLayout) {
-			// ActionItem组件
 			LinearLayout actionsLayout = (LinearLayout) view;
-			QuickActionBar bar = (QuickActionBar) actionsLayout.getTag();
+			NotesMoreActionBar bar = (NotesMoreActionBar) actionsLayout.getTag();
 			bar.dismissQuickActionBar();
 		}
 	}
 
 	private class DisapearThread implements Runnable {
 		public void run() {
-			// 避免在1.5s内，用户再次拖动时提示框又执行隐藏命令。
 			if (scrollState == ListView.OnScrollListener.SCROLL_STATE_IDLE) {
-				txtOverlay.setVisibility(View.INVISIBLE);
+				charHint.setVisibility(View.INVISIBLE);
 			}
 		}
 	}
 
 	public void onDestroy() {
 		super.onDestroy();
-		// 将txtOverlay删除。
-		txtOverlay.setVisibility(View.INVISIBLE);
-		windowManager.removeView(txtOverlay);
+		charHint.setVisibility(View.INVISIBLE);
+		windowManager.removeView(charHint);
 	}
 
 	private String[] stringArr = { "Abbaye de Belloc","Zanetti Parmigiano Reggiano" };

@@ -8,8 +8,8 @@
 	<dimen name="list_item_url_size">10sp</dimen>
 	<dimen name="list_item_divider_margin">5dip</dimen>
 	<dimen name="list_item_icon_length">50sp</dimen>
-	<dimen name="popup_char_min_length">70dip</dimen>
-	<dimen name="qa_action_item_padding">15dip</dimen>
-	<dimen name="qa_action_item_name_size">15sp</dimen>
+	<dimen name="notes_popup_char_hint_min_length">70dip</dimen>
+	<dimen name="notes_more_action_item_padding">15dip</dimen>
+	<dimen name="notes_more_action_item_name_size">15sp</dimen>
 	<dimen name="info_dialog_expend">10dip</dimen>
 </resources>

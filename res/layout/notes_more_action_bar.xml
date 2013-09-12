@@ -2,15 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content">
-	<!-- 箭头的ImageView在FrameLayout之上可消除两者之间的间隙。如要查看间隙效果请将header2与arrow_up位置互换。 -->
-	<!-- android:fadingEdgeLength:设置Scroll水平头尾两端颜色渐变的区域宽度。本处设置为0。 -->
-	<!-- android:scrollbars:同样，本Scroll不需要水平或垂直滚动条。其取值可有：none、horizontal、vertical -->
-
 	<HorizontalScrollView
 	    android:id="@+id/actionScrollFrame"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:background="@drawable/qa_bar_background"
+	    android:background="@drawable/notes_more_action_bar_background"
 	    android:fadingEdgeLength="0dip"
 	    android:paddingLeft="1dip"
 	    android:scrollbars="none" >
@@ -19,14 +15,17 @@
 			android:layout_height="wrap_content"
 			android:id="@+id/actionsLayout"
 			android:orientation="horizontal">
+			
 			<ImageView android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/qa_slider_left"
+				android:src="@drawable/notes_more_action_bar_slider_left"
 			></ImageView>
+			
 			<ImageView android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/qa_slider_right"
+				android:src="@drawable/notes_more_action_bar_slider_right"
 			></ImageView>
+			
 		</LinearLayout>
 	</HorizontalScrollView>
 </RelativeLayout>

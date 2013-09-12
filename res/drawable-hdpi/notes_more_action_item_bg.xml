@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+	android:dither="true">
+	<item android:state_pressed="true"
+		android:drawable="@drawable/notes_more_action_item_btn_pressed"
+	></item>
+	<item android:state_focused="true"
+		android:drawable="@drawable/notes_more_action_item_btn_focused"
+	></item>
+	<item android:drawable="@drawable/notes_more_action_item_btn_normal"
+	></item>
+</selector>

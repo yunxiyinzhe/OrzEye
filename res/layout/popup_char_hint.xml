@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:textSize="@dimen/popup_char_min_length"
-    android:textColor="@android:color/white"
-    android:background="@color/popup_char_color"
-    android:minWidth="@dimen/popup_char_min_length"
-    android:maxWidth="@dimen/popup_char_min_length"
-    android:gravity="center"
-/>

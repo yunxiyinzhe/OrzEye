@@ -19,12 +19,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
-public class QuickActionBar {
+@SuppressWarnings("deprecation")
+public class NotesMoreActionBar {
 	private View anchor;
-	private Vector<ActionItem> vecActions;
+	private Vector<NotesMoreActionItem> moreActions;
 	private PopupWindow popupWindow;
-	private View qaBarRoot;
+	private View moreActionBarRoot;
 	
 	private int phoneScreenWidth;
 	private int phoneScreenHeight;
@@ -33,9 +33,9 @@ public class QuickActionBar {
 	private Drawable popupWindowBackground;
 	private int listItemIndex;
 
-	public QuickActionBar(View anchor, int idx) {
-		if (vecActions == null) {
-			vecActions = new Vector<ActionItem>();
+	public NotesMoreActionBar(View anchor, int idx) {
+		if (moreActions == null) {
+			moreActions = new Vector<NotesMoreActionItem>();
 		}
 		this.anchor = anchor;
 		this.listItemIndex = idx;
@@ -45,7 +45,7 @@ public class QuickActionBar {
 		popupWindow.setTouchInterceptor(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-					QuickActionBar.this.popupWindow.dismiss();
+					NotesMoreActionBar.this.popupWindow.dismiss();
 					return true;
 				}
 				return false;
@@ -57,11 +57,11 @@ public class QuickActionBar {
 		phoneScreenHeight = windowManager.getDefaultDisplay().getHeight();
 
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		qaBarRoot = (ViewGroup) inflater.inflate(R.layout.qa_bar, null);
+		moreActionBarRoot = (ViewGroup) inflater.inflate(R.layout.notes_more_action_bar, null);
 	}
 
-	public void addActionItem(ActionItem actionWeb) {
-		vecActions.add(actionWeb);
+	public void addActionItem(NotesMoreActionItem actionWeb) {
+		moreActions.add(actionWeb);
 	}
 
 	public void show() {
@@ -69,11 +69,11 @@ public class QuickActionBar {
 		anchor.getLocationOnScreen(location);
 		Rect anchorRect = new Rect(location[0], location[1], location[0] + anchor.getWidth(),
 				location[1] + anchor.getHeight());
-		qaBarRoot.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+		moreActionBarRoot.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
-		qaBarRoot.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		int rootWidth = qaBarRoot.getMeasuredWidth();
-		int rootHeight = qaBarRoot.getMeasuredHeight();
+		moreActionBarRoot.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		int rootWidth = moreActionBarRoot.getMeasuredWidth();
+		int rootHeight = moreActionBarRoot.getMeasuredHeight();
 
 		int xPos = (phoneScreenWidth - rootWidth) >> 1;
 
@@ -86,8 +86,8 @@ public class QuickActionBar {
 			diff = -diff;
 		}
 
-		LinearLayout actionsLayout = (LinearLayout) qaBarRoot.findViewById(R.id.actionsLayout);
-		appendActionsItemUI(actionsLayout, vecActions);
+		LinearLayout actionsLayout = (LinearLayout) moreActionBarRoot.findViewById(R.id.actionsLayout);
+		appendActionsItemUI(actionsLayout, moreActions);
 
 		if (popupWindowBackground == null) {
 			popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -99,11 +99,11 @@ public class QuickActionBar {
 		popupWindow.setTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setOutsideTouchable(true);
-		popupWindow.setContentView(qaBarRoot);
+		popupWindow.setContentView(moreActionBarRoot);
 		popupWindow.showAtLocation(this.anchor, Gravity.NO_GRAVITY, xPos, yPos + diff);
 	}
 
-	private void appendActionsItemUI(ViewGroup actionsLayout, Vector<ActionItem> vec) {
+	private void appendActionsItemUI(ViewGroup actionsLayout, Vector<NotesMoreActionItem> vec) {
 		if (vec == null || vec.size() == 0) {
 			return;
 		}
@@ -112,16 +112,16 @@ public class QuickActionBar {
 		int idx = 1;
 		int size = vec.size();
 		for (int i = 0; i < size; i++, idx++) {
-			view = getActionItemUI(vecActions.get(i));
+			view = getActionItemUI(moreActions.get(i));
 			view.setTag(this);
 			actionsLayout.addView(view, idx);
 		}
 	}
 
-	private View getActionItemUI(ActionItem item) {
-		LinearLayout actionItemLayout = (LinearLayout) inflater.inflate(R.layout.action_item, null);
-		ImageView icon = (ImageView) actionItemLayout.findViewById(R.id.qa_actionItem_icon);
-		TextView txtName = (TextView) actionItemLayout.findViewById(R.id.qa_actionItem_name);
+	private View getActionItemUI(NotesMoreActionItem item) {
+		LinearLayout actionItemLayout = (LinearLayout) inflater.inflate(R.layout.notes_more_action_item, null);
+		ImageView icon = (ImageView) actionItemLayout.findViewById(R.id.notes_more_action_Item_icon);
+		TextView txtName = (TextView) actionItemLayout.findViewById(R.id.notes_more_action_Item_name);
 		Drawable drawable = item.getIcon();
 		if (drawable == null) {
 			icon.setVisibility(View.GONE);

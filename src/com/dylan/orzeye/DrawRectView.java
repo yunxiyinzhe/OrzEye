@@ -9,10 +9,10 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
-public class DrawImageView extends ImageView {
+public class DrawRectView extends ImageView {
 	Context mContext;
 
-	public DrawImageView(Context context, AttributeSet attrs) {
+	public DrawRectView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
 	}
@@ -32,11 +32,12 @@ public class DrawImageView extends ImageView {
 		if (mContext instanceof CameraActivity) {
 			DisplayMetrics dm = ((CameraActivity) mContext).getDisplayMetrics();
 			int width = dm.widthPixels;
-			canvas.drawRect(80, 100, width - 80, 200, paint);
-			canvas.clipRect(80, 100, width - 80, 200);
+			int height = dm.heightPixels;
+			canvas.drawRect(width/5, height/8, width - width/5, height/4, paint);
+			canvas.clipRect(width/5, height/8, width - width/5, height/4);
 			canvas.drawARGB(100, 0, 0, 0);
-			canvas.drawLine(width/2-20,150,width/2+20,150,paint);
-			canvas.drawLine(width/2,130,width/2,170,paint);
+			canvas.drawLine(width/2-20,(height/8+height/4)/2,width/2+20,(height/8+height/4)/2,paint);
+			canvas.drawLine(width/2,(height/8+height/4)/2-20,width/2,(height/8+height/4)/2+20,paint);
 		}
 	}
 }
