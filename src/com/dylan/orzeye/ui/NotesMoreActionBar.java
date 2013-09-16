@@ -4,10 +4,8 @@ import java.util.Vector;
 
 import com.dylan.orzeye.R;
 import android.content.Context;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,9 +23,6 @@ public class NotesMoreActionBar {
 	private Vector<NotesMoreActionItem> moreActions;
 	private PopupWindow popupWindow;
 	private View moreActionBarRoot;
-	
-	private int phoneScreenWidth;
-	private int phoneScreenHeight;
 
 	private LayoutInflater inflater;
 	private Drawable popupWindowBackground;
@@ -51,10 +46,6 @@ public class NotesMoreActionBar {
 				return false;
 			}
 		});
-		WindowManager windowManager = (WindowManager) context
-				.getSystemService(Context.WINDOW_SERVICE);
-		phoneScreenWidth = windowManager.getDefaultDisplay().getWidth();
-		phoneScreenHeight = windowManager.getDefaultDisplay().getHeight();
 
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		moreActionBarRoot = (ViewGroup) inflater.inflate(R.layout.notes_more_action_bar, null);
@@ -65,27 +56,10 @@ public class NotesMoreActionBar {
 	}
 
 	public void show() {
-		int[] location = new int[2];
-		anchor.getLocationOnScreen(location);
-		Rect anchorRect = new Rect(location[0], location[1], location[0] + anchor.getWidth(),
-				location[1] + anchor.getHeight());
 		moreActionBarRoot.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
 		moreActionBarRoot.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		int rootWidth = moreActionBarRoot.getMeasuredWidth();
-		int rootHeight = moreActionBarRoot.getMeasuredHeight();
-
-		int xPos = (phoneScreenWidth - rootWidth) >> 1;
-
-		int yPos = anchorRect.bottom;
-
-		int diff = -10;
 		
-		if (anchorRect.bottom + diff + rootHeight > phoneScreenHeight) {
-			yPos = anchorRect.top - rootHeight;
-			diff = -diff;
-		}
-
 		LinearLayout actionsLayout = (LinearLayout) moreActionBarRoot.findViewById(R.id.actionsLayout);
 		appendActionsItemUI(actionsLayout, moreActions);
 
@@ -100,7 +74,7 @@ public class NotesMoreActionBar {
 		popupWindow.setFocusable(true);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setContentView(moreActionBarRoot);
-		popupWindow.showAtLocation(this.anchor, Gravity.NO_GRAVITY, xPos, yPos + diff);
+		popupWindow.showAsDropDown(anchor);
 	}
 
 	private void appendActionsItemUI(ViewGroup actionsLayout, Vector<NotesMoreActionItem> vec) {

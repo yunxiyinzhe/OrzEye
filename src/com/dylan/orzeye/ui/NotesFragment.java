@@ -30,6 +30,8 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
 	private TextView charHint;
 	private WindowManager windowManager;
 	
+	private String[] stringArr = { "Abbaye de Belloc","Zanetti Parmigiano Reggiano" };
+	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		
@@ -111,7 +113,5 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
 		charHint.setVisibility(View.INVISIBLE);
 		windowManager.removeView(charHint);
 	}
-
-	private String[] stringArr = { "Abbaye de Belloc","Zanetti Parmigiano Reggiano" };
 
 }
