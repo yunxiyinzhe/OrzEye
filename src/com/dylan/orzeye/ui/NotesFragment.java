@@ -1,7 +1,12 @@
 package com.dylan.orzeye.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dylan.orzeye.R;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,7 +35,7 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
 	private TextView charHint;
 	private WindowManager windowManager;
 	
-	private String[] stringArr = { "Abbaye de Belloc","Zanetti Parmigiano Reggiano" };
+	private List<String> stringArr = new ArrayList<String>();
 	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -39,6 +44,12 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
     		Bundle savedInstanceState) {
+   		SQLiteDatabase db = getActivity().openOrCreateDatabase("OrzEye.db", Context.MODE_PRIVATE, null);
+   		Cursor cursor = db.query("notes", new String[]{"word"}, null,null, null, null, null);
+   		while (cursor.moveToNext()) {
+   			stringArr.add(cursor.getString(0));
+   		}
+    	
     	View view = inflater.inflate( R.layout.activity_notes,container, false);
     	handler = new Handler();
    		charHint = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.notes_popup_char_hint, null);
@@ -55,13 +66,17 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
    		notesWordList.setOnScrollListener(this);
    		notesWordList.setAdapter(listAdapter);
    		disapearThread = new DisapearThread();
-    	   return view;
+   		
+    	return view;
     }
     
 	/** ListView.OnScrollListener */
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
 			int totalItemCount) {
-		charHint.setText(String.valueOf(stringArr[firstVisibleItem + (visibleItemCount >> 1)]
+		if(stringArr.isEmpty()) {
+			return;
+		}
+		charHint.setText(String.valueOf(stringArr.get(firstVisibleItem + (visibleItemCount >> 1))
 				.charAt(0)));
 	}
 

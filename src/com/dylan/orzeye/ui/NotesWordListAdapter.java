@@ -1,5 +1,7 @@
 package com.dylan.orzeye.ui;
 
+import java.util.List;
+
 import com.dylan.orzeye.R;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,21 +17,21 @@ public class NotesWordListAdapter extends BaseAdapter {
 	
 	private LayoutInflater layoutInflater;
 	private OnClickListener onClickListener;
-	private String[] stringArr;
+	private List<String> stringArr;
 
-	public NotesWordListAdapter(Context context, String[] arr, OnClickListener listener) {
+	public NotesWordListAdapter(Context context, List<String> arr, OnClickListener listener) {
 		layoutInflater = LayoutInflater.from(context);
 		this.onClickListener = listener;
 		stringArr = arr;
 	}
 
 	public int getCount() {
-		return stringArr == null ? 0 : stringArr.length;
+		return stringArr == null ? 0 : stringArr.size();
 	}
 
 	public Object getItem(int position) {
 		if (stringArr != null) {
-			return stringArr[position];
+			return stringArr.get(position);
 		}
 		return null;
 	}
@@ -54,12 +56,12 @@ public class NotesWordListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.orderTextView.setText(String.valueOf(position + 1) + ".");
-		holder.wordTextView.setText(stringArr[position]);
+		holder.wordTextView.setText(stringArr.get(position));
 		holder.imgView.setOnClickListener(onClickListener);
 		holder.imgView.setTag(position);
 		int idx = position - 1;
-		char previewChar = idx >= 0 ? stringArr[idx].charAt(0) : ' ';
-		char currentChar = stringArr[position].charAt(0);
+		char previewChar = idx >= 0 ? stringArr.get(idx).charAt(0) : ' ';
+		char currentChar = stringArr.get(position).charAt(0);
 		if (currentChar != previewChar) {
 			holder.firstCharHintTextView.setVisibility(View.VISIBLE);
 			holder.firstCharHintTextView.setText(String.valueOf(currentChar));
