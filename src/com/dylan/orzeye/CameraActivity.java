@@ -17,7 +17,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
@@ -47,6 +50,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 	private static TextView translatedView = null;
 	private ImageButton triggerButton = null;
 	private ImageButton dicWebSearchButton = null;
+	private ImageButton addNotesButton = null;
 	private ImageButton overflowMenu_Button = null;
 	private DisplayMetrics dm = null;
 
@@ -75,6 +79,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		dicWebSearchButton
 				.setOnClickListener(new WebSearchButtonOnClickListener());
 
+		addNotesButton = (ImageButton) findViewById(R.id.notes_add_btn);
+		addNotesButton
+				.setOnClickListener(new AddNotesButtonOnClickListener());
 		recognizedView = (TextView) findViewById(R.id.RecognizedView);
 		translatedView = (TextView) findViewById(R.id.TranslatedView);
 		
@@ -312,5 +319,27 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 
 			}
 		}
+	}
+	
+	class AddNotesButtonOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View arg0) {
+			SQLiteDatabase db = openOrCreateDatabase("OrzEye.db", Context.MODE_PRIVATE, null);
+			db.execSQL("CREATE TABLE IF NOT EXISTS notes (_id INTEGER PRIMARY KEY AUTOINCREMENT, word VARCHAR, tanslation VARCHAR)");
+			if(!recognizedView.getText().toString().isEmpty() && !translatedView.getText().toString().isEmpty()) {
+				//TODO These code should be refined later.  
+				ContentValues cv = new ContentValues();
+		        cv.put("word", recognizedView.getText().toString());  
+		        cv.put("tanslation", translatedView.getText().toString());   
+		        db.insert("notes", null, cv);
+			}
+			else {
+				Toast.makeText(CameraActivity.this, getString(R.string.textempty_msg),
+						Toast.LENGTH_SHORT).show();
+			}
+			
+		}
+		
 	}
 }
