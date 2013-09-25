@@ -38,15 +38,17 @@ public class ImageProcessTool {
 			matrix.postRotate((float) 90.0);
 			Bitmap rotaBitmap = Bitmap.createBitmap(mBitmap, 0, 0,
 					mBitmap.getWidth(), mBitmap.getHeight(), matrix, false);
+			int width = dm.widthPixels;
+			int height = dm.heightPixels;
 			double heightRatio = (double) rotaBitmap.getHeight()
-					/ (double) dm.heightPixels;
+					/ (double) height;
 			double widthRatio = (double) rotaBitmap.getWidth()
-					/ (double) dm.widthPixels;
+					/ (double) width;
 
 			rectBitmap = Bitmap.createBitmap(rotaBitmap,
-					(int) (80 * widthRatio), (int) (100 * heightRatio),
-					(int) ((dm.widthPixels - 160) * widthRatio),
-					(int) (100 * heightRatio));
+					(int) (width/5 * widthRatio), (int) (height/8 * heightRatio),
+					(int) ((width - 2*width/5) * widthRatio),
+					(int) (height/8 * heightRatio));
 		}
 		return rectBitmap;
 	}
