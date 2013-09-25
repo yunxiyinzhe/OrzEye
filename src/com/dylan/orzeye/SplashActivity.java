@@ -12,7 +12,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.Window;
 
 public class SplashActivity extends Activity {
@@ -35,7 +37,10 @@ public class SplashActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_splash);
-
+		// TODO need to be refined
+		SQLiteDatabase db = openOrCreateDatabase("OrzEye.db", Context.MODE_PRIVATE, null);
+		db.execSQL("CREATE TABLE IF NOT EXISTS notes (_id INTEGER PRIMARY KEY AUTOINCREMENT, word VARCHAR, tanslation VARCHAR)");
+		
 		if (isDataFileExisted()) {
 			new Handler().postDelayed(new Runnable() {
 

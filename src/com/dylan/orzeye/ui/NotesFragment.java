@@ -25,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class NotesFragment extends Fragment implements ListView.OnScrollListener, OnItemClickListener,
+public class NotesFragment extends Fragment implements ListView.OnScrollListener,
 		android.view.View.OnClickListener {
 	private Handler handler;
 	private DisapearThread disapearThread;
@@ -62,7 +62,6 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
    		windowManager.addView(charHint, lp);
    		listAdapter = new NotesWordListAdapter(getActivity(), stringArr, this);
    		notesWordList = (ListView) view.findViewById(R.id.notes_word_list);
-   		notesWordList.setOnItemClickListener(this);
    		notesWordList.setOnScrollListener(this);
    		notesWordList.setAdapter(listAdapter);
    		disapearThread = new DisapearThread();
@@ -92,10 +91,6 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
 		}
 	}
 
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		
-	}
-
 	public void onClick(View view) {
 		if (view instanceof ImageView) {
 			int position = ((Integer) view.getTag()).intValue();
@@ -104,10 +99,10 @@ public class NotesFragment extends Fragment implements ListView.OnScrollListener
 			NotesMoreActionItem actionDeleteNotesWord = new NotesMoreActionItem(getResources().getDrawable(R.drawable.delete_notes_word_icon),
 					"Delete", this);
 
-			NotesMoreActionBar qaBar = new NotesMoreActionBar(view, position);
-			qaBar.addActionItem(actionViewNotesWord);
-			qaBar.addActionItem(actionDeleteNotesWord);
-			qaBar.show();
+			NotesMoreActionBar moreActionBar = new NotesMoreActionBar(view, position);
+			moreActionBar.addActionItem(actionViewNotesWord);
+			moreActionBar.addActionItem(actionDeleteNotesWord);
+			moreActionBar.show();
 		} else if (view instanceof LinearLayout) {
 			LinearLayout actionsLayout = (LinearLayout) view;
 			NotesMoreActionBar bar = (NotesMoreActionBar) actionsLayout.getTag();
