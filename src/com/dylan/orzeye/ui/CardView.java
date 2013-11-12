@@ -37,4 +37,10 @@ public class CardView extends Card {
 		return v;
 	}
 
+	@Override
+	public boolean convert(View convertCardView) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

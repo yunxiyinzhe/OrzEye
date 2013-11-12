@@ -51,8 +51,8 @@ public class NotesMoreActionBar {
 		moreActionBarRoot = (ViewGroup) inflater.inflate(R.layout.notes_more_action_bar, null);
 	}
 
-	public void addActionItem(NotesMoreActionItem actionWeb) {
-		moreActions.add(actionWeb);
+	public void addActionItem(NotesMoreActionItem action) {
+		moreActions.add(action);
 	}
 
 	public void show() {

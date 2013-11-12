@@ -288,7 +288,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 
 		@Override
 		public void onClick(View v) {
-			if (recognizedText[0].isEmpty()) {
+			if (recognizedView.getText().toString().isEmpty()) {
 				Toast.makeText(CameraActivity.this, getString(R.string.textempty_msg),
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -327,7 +327,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		public void onClick(View arg0) {
 			SQLiteDatabase db = openOrCreateDatabase("OrzEye.db", Context.MODE_PRIVATE, null);
 			db.execSQL("CREATE TABLE IF NOT EXISTS notes (_id INTEGER PRIMARY KEY AUTOINCREMENT, word VARCHAR, tanslation VARCHAR)");
-			if(!recognizedView.getText().toString().isEmpty() && !translatedView.getText().toString().isEmpty()) {
+			if(!recognizedView.getText().toString().isEmpty() && 
+					!translatedView.getText().toString().isEmpty() &&
+					!translatedView.getText().toString().equals("not found!")) {
 				//TODO These code should be refined later.  
 				ContentValues cv = new ContentValues();
 		        cv.put("word", recognizedView.getText().toString());  
