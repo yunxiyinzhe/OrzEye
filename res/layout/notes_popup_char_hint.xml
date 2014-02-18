@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:textSize="@dimen/notes_popup_char_hint_min_length"
-    android:textColor="@android:color/white"
-    android:background="@color/notes_popup_char_hint_color"
-    android:minWidth="@dimen/notes_popup_char_hint_min_length"
-    android:maxWidth="@dimen/notes_popup_char_hint_min_length"
-    android:gravity="center"
-/>

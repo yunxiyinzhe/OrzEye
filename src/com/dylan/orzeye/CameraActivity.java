@@ -9,8 +9,6 @@ import com.dylan.orzeye.dictionary.YoudaoJsonParser;
 import com.dylan.orzeye.dictionary.YoudaoTranslater;
 import com.dylan.orzeye.image.ImageProcessTool;
 import com.dylan.orzeye.ocr.OCRTool;
-import com.dylan.orzeye.ui.MainTabsActivity;
-import com.dylan.orzeye.ui.WebTranslationActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -76,12 +74,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 		triggerButton.setOnClickListener(new TriggerButtonOnClickListener());
 
 		dicWebSearchButton = (ImageButton) findViewById(R.id.web_search_btn);
-		dicWebSearchButton
-				.setOnClickListener(new WebSearchButtonOnClickListener());
 
 		addNotesButton = (ImageButton) findViewById(R.id.notes_add_btn);
-		addNotesButton
-				.setOnClickListener(new AddNotesButtonOnClickListener());
+
 		recognizedView = (TextView) findViewById(R.id.RecognizedView);
 		translatedView = (TextView) findViewById(R.id.TranslatedView);
 		
@@ -93,31 +88,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 				PopupMenu overflowMneu = new PopupMenu(getBaseContext(), v);
 				MenuInflater inflater = overflowMneu.getMenuInflater();
 				inflater.inflate(R.menu.overflow_menu, overflowMneu.getMenu());
-				
-				overflowMneu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-					
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						Intent intent = new Intent();
-						switch (item.getItemId()) {
-						case R.id.notes_item:
-							intent.setClass(CameraActivity.this, MainTabsActivity.class);
-							intent.putExtra("position", 0);
-							break;
-							
-						case R.id.dictionary_item:
-							intent.setClass(CameraActivity.this, MainTabsActivity.class);
-							intent.putExtra("position", 1);
-							break;
-							
-						default:
-							break;
-						}
-						
-						startActivity(intent);
-						return true;
-					}
-				});
+
 				overflowMneu.show();
 				
 			}
@@ -282,66 +253,5 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback,
 				mCamera.setOneShotPreviewCallback(CameraActivity.this);
 			}
 		}
-	}
-
-	class WebSearchButtonOnClickListener implements OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-			if (recognizedView.getText().toString().isEmpty()) {
-				Toast.makeText(CameraActivity.this, getString(R.string.textempty_msg),
-						Toast.LENGTH_SHORT).show();
-			} else {
-
-				ProgressDialog dialog = showProgressDialog(getString(R.string.tanslateprogressdlg_msg), getString(R.string.waiting_msg));
-				final UpdateUIHandler handler = new UpdateUIHandler(dialog, CameraActivity.this);
-						
-				Thread thread = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						YoudaoJsonParser youdaoJsonParser = YoudaoTranslater
-								.translate(recognizedText[0]);
-						if(youdaoJsonParser != null) {
-							Intent intent = new Intent();
-							intent.setClass(CameraActivity.this, WebTranslationActivity.class);
-							intent.putExtra("word", recognizedText[0]);
-							intent.putExtra("phonetic", youdaoJsonParser.getPhonetic());
-							intent.putExtra("basictanslation", youdaoJsonParser.getBasicTanslation());
-							intent.putExtra("webtanslation", youdaoJsonParser.getWebTanslation());
-							startActivity(intent);
-						}
-						
-						handler.sendEmptyMessage(1);
-					}
-				});
-				thread.start();
-
-			}
-		}
-	}
-	
-	class AddNotesButtonOnClickListener implements OnClickListener {
-
-		@Override
-		public void onClick(View arg0) {
-			SQLiteDatabase db = openOrCreateDatabase("OrzEye.db", Context.MODE_PRIVATE, null);
-			db.execSQL("CREATE TABLE IF NOT EXISTS notes (_id INTEGER PRIMARY KEY AUTOINCREMENT, word VARCHAR, tanslation VARCHAR)");
-			if(!recognizedView.getText().toString().isEmpty() && 
-					!translatedView.getText().toString().isEmpty() &&
-					!translatedView.getText().toString().equals("not found!")) {
-				//TODO These code should be refined later.  
-				ContentValues cv = new ContentValues();
-		        cv.put("word", recognizedView.getText().toString());  
-		        cv.put("tanslation", translatedView.getText().toString());   
-		        db.insert("notes", null, cv);
-			}
-			else {
-				Toast.makeText(CameraActivity.this, getString(R.string.textempty_msg),
-						Toast.LENGTH_SHORT).show();
-			}
-			
-		}
-		
 	}
 }
